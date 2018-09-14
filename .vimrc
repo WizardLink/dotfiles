@@ -73,9 +73,6 @@ set isk+=_,$,@,%,#,-
 " Try to detect file formats
 set fileformats=unix,dos,mac
 
-" Enable per-directory .vimrc files
-set exrc
-
 " Disable unsafe commands
 set secure
 
@@ -148,9 +145,6 @@ set completeopt=longest,menuone
 " Height of the command bar
 set cmdheight=1
 
-" GVIM
-set guioptions-=T
-
 " This makes vim act like other editors, buffers can exist in the
 " background without being in a window
 set hidden
@@ -209,6 +203,9 @@ set visualbell
 " No extra margin to the left
 set foldcolumn=0
 
+" Windows size at startup
+set lines=50 columns=200
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 "            <> Parenthesis/Bracket <>
 """""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -228,9 +225,6 @@ set mat=2
 
 " Editor font
 set guifont=Consolas:h10:b 
-
-" Windows size at startup
-set lines=50 columns=200
 
 " Switch syntax highlighting on, when the terminal has colors
 if &t_Co > 2 || has("gui_running")
@@ -359,19 +353,19 @@ if exists("+smartindent")
   set smartindent
 endif
 
-" 1 tab === 2 spaces
+" Tab indentation
+set noexpandtab
 set shiftwidth=4
 set tabstop=4
-
-" Number of spaces to use for each step of indent
-set shiftwidth=4
-set softtabstop=4 noexpandtab
 
 " Use one space, not two, after punctuation
 set nojoinspaces
 
 " Don't automatically wrap text when typing
 set fo-=t
+
+" Enable list
+set list
 
 " Set characters to show for trailing whitespace and
 " end-of-line. Also supports tab, but I set expandtab
