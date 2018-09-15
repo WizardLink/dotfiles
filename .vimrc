@@ -5,37 +5,8 @@
 " Make Vim more useful
 set nocompatible
 
-" Set the default shell
-set shell=bash
-
-" Tell vim to use the .vim path first
-set runtimepath=~/.vim,$VIMRUNTIME
-
-" Necessary for gnu screen & mouse
-set ttymouse=xterm2
-
-" Add the g flag to search/replace by default
-set gdefault
-
-" Ignore whitespace in vimdiff
-if &diff
-  set diffopt+=iwhite
-endif
-
-" Only look at this number of lines for modeline
-set modelines=10
-
-" Look for the embedded modelines at the top of the file
-set modeline
-
-" Enable filetype detection
-filetype on
-
-" Enable filetype-specific plugis
-filetype plugin on
-
-" Enable filetype-specific indenting
-filetype indent on
+" Disable filetype detection
+filetype off
 
 " Set extra options when running in GUI mode
 if has("gui_running")
@@ -50,45 +21,18 @@ try
 catch
 endtry
 
-" Tell vim to use the .vim path first.
-set runtimepath=~/.vim,$VIMRUNTIME
-
-" Set encoding
-if has('multi_byte')
-  scriptencoding utf-8
-  set encoding=utf-8
-  set fileencodings=utf-8,cp932,sjis,utf-16le,euc-jp
-
-  if has("win32") || has("win64")
-    set termencoding=gbk
-  endif
-  if has("linux") || has("unix")
-    set termencoding=utf-8
-  endif
-endif
-
-" None word dividers
-set isk+=_,$,@,%,#,-
-
 " Try to detect file formats
 set fileformats=unix,dos,mac
 
 " Disable unsafe commands
 set secure
 
-" Tell us about changes
-set report=0
-
 " Show the filename in the window titlebar
 if exists("+title")
 	set title
 endif
 
-" Automatically set/unset Vim's paste mode when you paste
-let &t_SI .= "\<Esc>[?2004h"
-let &t_EI .= "\<Esc>[?2004l"
-
-" Return to last edit position when opening files
+"Return to last edit position when opening files
 if has('viminfo')
 	if has('autocmd')
 		autocmd BufReadPost *\(.git/COMMIT_EDITMSG\)\@<!
@@ -132,18 +76,16 @@ Plugin 'leafgarland/typescript-vim'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
+" Tsuquyomi
+let g:tsuquyomi_use_local_typescript = 0
+let g:tsuquyomi_use_dev_node_module = 0
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 "                  <> Interface <>
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" Set 7 lines to the cursor - when moving vertically using j/k
-set so=7
-
 " Completetion (text) settings
 set completeopt=longest,menuone
-
-" Height of the command bar
-set cmdheight=1
 
 " This makes vim act like other editors, buffers can exist in the
 " background without being in a window
@@ -178,11 +120,6 @@ set splitright
 
 " Do not reset cursor to start of line when moving around
 set nostartofline
-
-" Show the cursor position
-"if exists("+ruler")
-"	set ruler
-"endif
 
 " Start scrolling at this number of lines from the bottom
 set scrolloff=2
@@ -224,7 +161,7 @@ set mat=2
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Editor font
-set guifont=Consolas:h10:b 
+set guifont=Consolas:h10:b
 
 " Switch syntax highlighting on, when the terminal has colors
 if &t_Co > 2 || has("gui_running")
@@ -282,16 +219,6 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 "          <> Files, backups and undo <>
 """""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Strip trailing whitespaces automatically when saving files of certain type
-if has("autocmd")
-  autocmd BufWritePre *.py,*.js,*.php,*.gpx,*.rb,*.tpl :call StripTrailingWhitespaces()
-endif
-
-" Don't backup files in temp directories or shm
-if exists('&backupskip')
-  set backupskip+=/tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*,*/shm/*
-endif
 
 " Don't keep swap files in temp directories or shm
 if has('autocmd')
@@ -370,7 +297,7 @@ set list
 " Set characters to show for trailing whitespace and
 " end-of-line. Also supports tab, but I set expandtab
 " and thus tabs are always turned into spaces
-set listchars=tab:>>,trail:!,eol:$
+set listchars=eol:§,tab:¤›,extends:»,precedes:«,nbsp:‡
 
 " Support for numbered/bullet lists
 set formatoptions+=n
