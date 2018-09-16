@@ -9,7 +9,7 @@ set guifont=Consolas:h10:b
 set antialias
 
 " no coursor-blink
-"set guicursor=a:ver1,a:blinkon0
+set guicursor=a:ver1,a:blinkon0
 
 " no coursor-blink in normal mode
 set guicursor=n:blinkon0
