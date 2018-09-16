@@ -21,8 +21,8 @@ try
 catch
 endtry
 
-" Try to detect file formats
-set fileformats=unix,dos,mac
+" Force file format to LF
+set fileformat=unix
 
 " Disable unsafe commands
 set secure
@@ -135,7 +135,6 @@ set number
 
 " No annoying sound on errors
 set noerrorbells
-set visualbell
 
 " No extra margin to the left
 set foldcolumn=0
@@ -215,50 +214,6 @@ if &t_Co > 2 || has("gui_running")
   " Highlight conflict markers
   match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 endif
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""
-"          <> Files, backups and undo <>
-"""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Don't keep swap files in temp directories or shm
-if has('autocmd')
-  augroup swapskip
-    autocmd!
-    silent! autocmd BufRead,BufNewFilePre
-      \ /tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*,*/shm/*
-      \ setlocal noswapfile
-  augroup END
-endif
-
-" Don't keep undo files in temp directories or shm
-if has('persistent_undo') && has('autocmd')
- augroup undoskip
-   autocmd!
-   silent! autocmd BufWritePre
-     \ /tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*,*/shm/*
-     \ setlocal noundofile
-  augroup END
-endif
-
-" Don't keep viminfo for files in temp directories or shm
-if has('viminfo')
-  if has('autocmd')
-    augroup viminfoskip
-      autocmd!
-      silent! autocmd BufRead,BufNewFilePre
-        \ /tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*,*/shm/*
-        \ setlocal viminfo=
-    augroup END
-  endif
-endif
-
-" Enable vim to remember undo chains between sessions (vim 7.3)
-if v:version >= 703
-  set undofile
-endif
-
-" disable folding
-set nofoldenable
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 "        <> Text, Tab and Indent related <>
