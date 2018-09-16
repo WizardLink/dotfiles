@@ -1,15 +1,15 @@
-" set theme
+" Set theme
 set background=dark
 colorscheme dracula
 
-" set font
+" Set font
 set guifont=Consolas:h10:b
 
-"set linespace=6
+" Set linespace=6
 set antialias
 
-" no coursor-blink
+" No coursor-blink
 set guicursor=a:ver1,a:blinkon0
 
-" no coursor-blink in normal mode
+" No coursor-blink in normal mode
 set guicursor=n:blinkon0
