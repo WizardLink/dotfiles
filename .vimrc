@@ -63,6 +63,7 @@ Plugin 'Valloric/YouCompleteMe' " Autocomplete
 Plugin 'w0rp/ale' " Async Lint
 Plugin 'scrooloose/nerdtree' " File Tree
 Plugin 'tpope/vim-fugitive' " GIT Integration
+Plugin 'jiangmiao/auto-pairs' " Auto indent
 
 " Visual
 Plugin 'vim-airline/vim-airline' " Bottom status line
@@ -72,6 +73,9 @@ Plugin 'dracula/vim' " Colour Scheme
 Plugin 'Quramy/tsuquyomi'
 Plugin 'leafgarland/typescript-vim'
 
+" Javascript
+Plugin 'pangloss/vim-javascript'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -79,6 +83,9 @@ filetype plugin indent on    " required
 " Tsuquyomi
 let g:tsuquyomi_use_local_typescript = 0
 let g:tsuquyomi_use_dev_node_module = 0
+
+" Vim-Javascript
+let g:javascript_plugin_jsdoc = 1 " Enable JSDoc highlight
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 "                  <> Interface <>
@@ -140,7 +147,7 @@ set noerrorbells
 set foldcolumn=0
 
 " Windows size at startup
-set lines=50 columns=200
+set lines=40 columns=130
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 "            <> Parenthesis/Bracket <>
@@ -160,7 +167,7 @@ set mat=2
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Editor font
-set guifont=Consolas:h10:b
+set guifont=Consolas:h10.5
 
 " Switch syntax highlighting on, when the terminal has colors
 if &t_Co > 2 || has("gui_running")
@@ -187,11 +194,6 @@ if &t_Co > 2 || has("gui_running")
   " Also switch on highlighting the last used search pattern
   if exists("+hlsearch")
     set hlsearch
-  endif
-
-  " Highlight current line
-  if exists("+cursorline")
-    set cursorline
   endif
 
   " Highlight trailing spaces in annoying red
