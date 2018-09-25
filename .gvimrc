@@ -3,7 +3,7 @@ set background=dark
 colorscheme dracula
 
 " Set font
-set guifont=Consolas:h11
+set guifont=DejaVu\ Sans\ Mono\ 11
 
-" Set linespace=6
+"Set linespace=6
 set antialias
