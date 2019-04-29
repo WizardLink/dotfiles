@@ -59,7 +59,10 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 " Utility
-Plugin 'Valloric/YouCompleteMe' " Autocomplete
+" Plugin 'Valloric/YouCompleteMe' " Autocomplete
+Plugin 'ajh17/VimCompletesMe' " Tab completetion
+Plugin 'universal-ctags/ctags' " Ctags
+Plugin 'ludovicchabant/vim-gutentags' " Tag management
 Plugin 'w0rp/ale' " Async Lint
 Plugin 'scrooloose/nerdtree' " File Tree
 Plugin 'tpope/vim-fugitive' " GIT Integration
@@ -75,6 +78,9 @@ Plugin 'leafgarland/typescript-vim'
 
 " Javascript
 Plugin 'pangloss/vim-javascript'
+
+" HTML
+Plugin 'mattn/emmet-vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -149,6 +155,9 @@ set foldcolumn=0
 " Windows size at startup
 set lines=50 columns=150
 
+" Show line numbers
+set number
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 "            <> Parenthesis/Bracket <>
 """""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -167,7 +176,7 @@ set mat=2
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Editor font
-set guifont=DejaVu\ Sans\ Mono\ 11
+set guifont=DejaVu_Sans_Mono:h11
 
 " Switch syntax highlighting on, when the terminal has colors
 if &t_Co > 2 || has("gui_running")
@@ -264,6 +273,8 @@ set listchars=eol:§,tab:¤›,extends:»,precedes:«,nbsp:‡
 " Support for numbered/bullet lists
 set formatoptions+=n
 
+" VimCompletesMe interactive for all vim filetypes
+autocmd FileType vim let b:vcm_tab_complete = 'vim'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 "              <> Status line <>
