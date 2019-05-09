@@ -282,9 +282,6 @@ set listchars=eol:§,tab:¤›,extends:»,precedes:«,nbsp:‡
 " Support for numbered/bullet lists
 set formatoptions+=n
 
-" VimCompletesMe interactive for all vim filetypes
-autocmd FileType vim let b:vcm_tab_complete = 'vim'
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 "              <> Status line <>
 """""""""""""""""""""""""""""""""""""""""""""""""""""
