@@ -68,19 +68,17 @@ Plugin 'scrooloose/nerdtree' " File Tree
 Plugin 'tpope/vim-fugitive' " GIT Integration
 Plugin 'jiangmiao/auto-pairs' " Ident completition
 
+" Syntax
+Plugin 'vim-syntastic/syntastic'
+" TypeScript
+	Plugin 'Quramy/tsuquyomi'
+	Plugin 'leafgarland/typescript-vim'
+" HTML
+	Plugin 'mattn/emmet-vim'
+
 " Visual
 Plugin 'vim-airline/vim-airline' " Bottom status line
 Plugin 'dracula/vim' " Colour Scheme
-
-" Typescript
-Plugin 'Quramy/tsuquyomi'
-Plugin 'leafgarland/typescript-vim'
-
-" Javascript
-Plugin 'pangloss/vim-javascript'
-
-" HTML
-Plugin 'mattn/emmet-vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -157,6 +155,17 @@ set lines=50 columns=150
 
 " Show line numbers
 set number
+
+" Syntastic recommended settings
+" https://github.com/vim-syntastic/syntastic/blob/master/README.markdown#3-recommended-settings
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 "            <> Parenthesis/Bracket <>
@@ -272,6 +281,9 @@ set listchars=eol:§,tab:¤›,extends:»,precedes:«,nbsp:‡
 
 " Support for numbered/bullet lists
 set formatoptions+=n
+
+" VimCompletesMe interactive for all vim filetypes
+autocmd FileType vim let b:vcm_tab_complete = 'vim'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 "              <> Status line <>

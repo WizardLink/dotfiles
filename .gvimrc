@@ -1,9 +1,8 @@
-" Set theme
-set background=dark
-colorscheme dracula
+"""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                  <> Interface <>
+"""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" Set font
-set guifont=DejaVu_Sans_Mono:h11
-
-" Set linespace=6
-set antialias
+" Visuals
+colorscheme dracula " Set to custom colorscheme
+set guifont=DejaVu_Sans_Mono:h11 " Custom user interface font
+" https://dejavu-fonts.github.io/ "
