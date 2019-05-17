@@ -59,37 +59,39 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 " Utility
-" Plugin 'Valloric/YouCompleteMe' " Autocomplete
-Plugin 'ajh17/VimCompletesMe' " Tab completetion
-Plugin 'universal-ctags/ctags' " Ctags
-Plugin 'ludovicchabant/vim-gutentags' " Tag management
-Plugin 'w0rp/ale' " Async Lint
-Plugin 'scrooloose/nerdtree' " File Tree
-Plugin 'tpope/vim-fugitive' " GIT Integration
-Plugin 'jiangmiao/auto-pairs' " Ident completition
+Plugin 'scrooloose/nerdtree'    " File Tree
+Plugin 'tpope/vim-fugitive'     " GIT Integration
+Plugin 'jiangmiao/auto-pairs'   " Ident completition
 
 " Syntax
-Plugin 'vim-syntastic/syntastic'
+Plugin 'w0rp/ale'
+" HTML
+	Plugin 'mattn/emmet-vim'             " enmet integration to Vim 
+" JavaScript
+	Plugin 'pangloss/vim-javascript'     " JavaScript highlighting
 " TypeScript
 	Plugin 'Quramy/tsuquyomi'
-	Plugin 'leafgarland/typescript-vim'
-" HTML
-	Plugin 'mattn/emmet-vim'
+	Plugin 'leafgarland/typescript-vim'  " TypeScript highlighting
 
 " Visual
-Plugin 'vim-airline/vim-airline' " Bottom status line
-Plugin 'dracula/vim' " Colour Scheme
+Plugin 'vim-airline/vim-airline'  " Bottom statusline
+Plugin 'dracula/vim'              " Colour Scheme
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
 
+" ALE
+let g:ale_completion_enabled = 1           " Enable auto-completion
+set omnifunc=ale#completion#OmniFunc       " Omni completion
+let g:airline#extensions#ale#enabled = 1   " ALE + vim-airline
+
 " Tsuquyomi
 let g:tsuquyomi_use_local_typescript = 0
 let g:tsuquyomi_use_dev_node_module = 0
 
-" Vim-JavaScript
-let g:javascript_plugin_jsdoc = 1 " Enable JSDoc highlight
+" vim-javascript
+let g:javascript_plugin_jsdoc = 1 " Enable JSDoc highlighting
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 "                  <> Interface <>
@@ -155,17 +157,6 @@ set lines=50 columns=150
 
 " Show line numbers
 set number
-
-" Syntastic recommended settings
-" https://github.com/vim-syntastic/syntastic/blob/master/README.markdown#3-recommended-settings
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 "            <> Parenthesis/Bracket <>
@@ -306,5 +297,19 @@ endif
 " NERDTREE
 map <C-n> :NERDTreeToggle %<CR>
 
-" Find Definition
-map <C-d> :ALEGoToDefinition<CR>
+"   ALE   "
+
+" Move between definitions
+map <C-d> :ALEGoToDefinitionInVSplit<CR>
+
+" Move between errors
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
+
+" Move between buffers
+nnoremap <S-k> :bprevious<CR>
+nnoremap <S-j> :bnext<CR>
+
+" Move between tabs
+nnoremap <A-k> :tabprevious<CR>
+nnoremap <A-j> :tabnext<CR>
