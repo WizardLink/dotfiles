@@ -1,8 +1,10 @@
 "═══════════════════════════════════════════════════"
-"                    ╠ Interface ╣                  "
+"               ╠ Colors and Fonts ╣                "
 "═══════════════════════════════════════════════════"
 
-" Visuals
-colorscheme dracula                " Set to custom colorscheme
-set guifont=DejaVu_Sans_Mono:h11   " Custom user interface font
-                                   " https://dejavu-fonts.github.io/ "
+" fallbacks
+
+set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h11 " editor font
+                                                   " https://github.com/powerline/fonts/tree/master/DejaVuSansMono "
+colorscheme gruvbox                                " sets colorscheme
+set background=light                               " set the colorscheme theme to light

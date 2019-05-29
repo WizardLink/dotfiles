@@ -62,17 +62,16 @@ Plugin 'jiangmiao/auto-pairs'   " Ident completition
 
 " Syntax
 Plugin 'w0rp/ale'
-" HTML
+	" HTML
 	Plugin 'mattn/emmet-vim'             " enmet integration to Vim
-" JavaScript
+	" JavaScript
 	Plugin 'pangloss/vim-javascript'     " JavaScript highlighting
-" TypeScript
-	Plugin 'Quramy/tsuquyomi'
+	" TypeScript
 	Plugin 'leafgarland/typescript-vim'  " TypeScript highlighting
 
 " Visual
 Plugin 'vim-airline/vim-airline'  " Bottom statusline
-Plugin 'dracula/vim'              " Colour Scheme
+Plugin 'morhetz/gruvbox'          " Colour scheme
 
 call vundle#end()            " required! stops vundle
 filetype plugin indent on    " required! re-enables filetype
@@ -85,10 +84,28 @@ filetype plugin indent on    " required! re-enables filetype
 let g:ale_completion_enabled = 1           " enable auto-completion
 set omnifunc=ale#completion#OmniFunc       " omni completion
 let g:airline#extensions#ale#enabled = 1   " ale + vim-airline
+set ballooneval                            " required! enable ballons!
+set balloonevalterm                        " required! on terminals?
+let g:ale_set_balloons = 1                 " enable balloons with ale
+let g:ale_set_quickfix = 1                 " enables ale's quickfix
+let g:ale_fix_on_save = 1                  " let ale fix certain issues upon saving
+let g:ale_fixers = {
+			\'*': ['remove_trailing_lines', 'trim_whitespace'],
+			\'html': ['tidy'],
+			\'javascript': ['prettier'],
+			\'json': ['prettier'],
+			\'markdown': ['prettier'],
+			\'typescript': ['tslint'],
+			\}
 
-" Tsuquyomi
-let g:tsuquyomi_use_local_typescript = 0
-let g:tsuquyomi_use_dev_node_module = 0
+" gruvbox
+let g:gruvbox_contrast_dark = 'hard'    " changes the contrast of dark mode
+let g:gruvbox_contrast_light = 'hard'   " changes the contrast of light mode
+
+" vim air-line
+if has('gui_running')
+	let g:airline_powerline_fonts =1
+endif
 
 " vim-javascript
 let g:javascript_plugin_jsdoc = 1 " Enable JSDoc highlighting
@@ -135,13 +152,13 @@ set mat=2             " how many tenths of a second to blink when matching brack
 "               ╠ Colors and Fonts ╣                "
 "═══════════════════════════════════════════════════"
 
-set guifont=DejaVu_Sans_Mono:h11 " editor font
-                                 " https://dejavu-fonts.github.io/ "
+set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h11 " editor font
+                                                   " https://github.com/powerline/fonts/tree/master/DejaVuSansMono "
 
 " Switch syntax highlighting on, when the terminal has colors
 if &t_Co > 2 || has("gui_running")
 	try
-		colorscheme dracula
+		colorscheme gruvbox
 		" sets colorscheme
 	catch /^Vim\%((\a\+)\)\=:E185/
 	" not available
@@ -253,7 +270,7 @@ map <C-n> :NERDTreeToggle %<CR>
 "   ALE   "
 
 " Move between definitions
-map <C-d> :ALEGoToDefinitionInVSplit<CR>
+map <C-f> :ALEGoToDefinitionInVSplit<CR>
 
 " Move between errors
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
@@ -268,3 +285,6 @@ nnoremap <S-j> :bnext<CR>
 " Move between tabs
 nnoremap <A-k> :tabprevious<CR>
 nnoremap <A-j> :tabnext<CR>
+
+" Add paste toggle
+set pastetoggle=<F2>
