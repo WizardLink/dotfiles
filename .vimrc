@@ -103,9 +103,7 @@ let g:gruvbox_contrast_dark = 'hard'    " changes the contrast of dark mode
 let g:gruvbox_contrast_light = 'hard'   " changes the contrast of light mode
 
 " vim air-line
-if has('gui_running')
-	let g:airline_powerline_fonts =1
-endif
+let g:airline_powerline_fonts =1
 
 " vim-javascript
 let g:javascript_plugin_jsdoc = 1 " Enable JSDoc highlighting
