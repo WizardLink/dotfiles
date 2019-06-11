@@ -5,11 +5,19 @@
 set nocompatible    " disables backwards compatibility with Vi
 set encoding=utf-8  " sets encoding to utf-8
 
-" Removes the rather annoying bar in GVIM
+" Change GVIM window
 if has("gui_running")
-	set guioptions-=T
-	set guioptions-=e
-	set guitablabel=%M\ %t
+	" Remove items from the GVIM
+	set guioptions-=e        " GUI tab
+	set guioptions-=m        " the menu bar
+	set guioptions-=T        " the toolbar
+	set guioptions-=r        " right scrollbar
+	set guioptions-=R        " right scrollbar at vertical split windows
+	set guioptions-=l        " left scrollbar
+	set guioptions-=L        " left scrollbar at vertical split windows
+
+	" Change the GVIM label
+	set guitablabel=%M\ %t   "
 endif
 
 " Set language as en_US in all circumstances for consistency
@@ -41,6 +49,13 @@ if has('viminfo')
 	set viminfo^=%
 endif
 
+" Persistent undo so you can undo even after buffer is closed
+try
+	set undodir=~/.vim/undodir
+	set undofile
+catch
+endtry
+
 "═══════════════════════════════════════════════════"
 "                      ╠ VUNDLE ╣                   "
 "═══════════════════════════════════════════════════"
@@ -56,9 +71,10 @@ call vundle#begin()                " initialise vundle
 Plugin 'VundleVim/Vundle.vim'   " required! lets vundle manage vundle
 
 " Utility
-Plugin 'scrooloose/nerdtree'    " File Tree
-Plugin 'tpope/vim-fugitive'     " GIT Integration
-Plugin 'jiangmiao/auto-pairs'   " Ident completition
+Plugin 'scrooloose/nerdtree'    " file tree
+Plugin 'tpope/vim-fugitive'     " GIT integration
+Plugin 'jiangmiao/auto-pairs'   " ident completition
+Plugin 'tpope/vim-commentary'   " comment out lines with ease
 
 " Syntax
 Plugin 'w0rp/ale'
@@ -70,8 +86,10 @@ Plugin 'w0rp/ale'
 	Plugin 'leafgarland/typescript-vim'  " TypeScript highlighting
 
 " Visual
-Plugin 'vim-airline/vim-airline'  " Bottom statusline
-Plugin 'morhetz/gruvbox'          " Colour scheme
+Plugin 'vim-airline/vim-airline'                   " bottom statusline
+Plugin 'morhetz/gruvbox'                           " colour scheme
+Plugin 'junegunn/goyo.vim'                         " distraction-free coding
+Plugin 'junegunn/limelight.vim' " enhance goyo experience
 
 call vundle#end()            " required! stops vundle
 filetype plugin indent on    " required! re-enables filetype
@@ -112,22 +130,18 @@ let g:javascript_plugin_jsdoc = 1 " Enable JSDoc highlighting
 "                    ╠ Interface ╣                  "
 "═══════════════════════════════════════════════════"
 
-set completeopt=longest,menuone " completion (text) settings
+set complete=.,w,b,u,kspell     " where to scan for completion
+set completeopt=menuone,preview " completion (text) settings
 set hidden                      " makes vim have buffers in the background without a window
 set esckeys                     " allow cursor keys in insert mode
 set backspace=indent,eol,start  " allow backspacing over everything in insert mode
-set whichwrap=b,s,h,l,<,>,[,]   " free tge cursor
 set ignorecase                  " ignore case when searching
 set magic                       " for regular expressions turn magic on
 set splitright                  " split vertically to the right
 set nostartofline               " do not reset cursor to start of line when moving around
-set scrolloff=2                 " start scrolling at this number of lines from the bottom
-set scrolloff=3                 " start scrolling three lines before the horizontal window border
-set scrolloff=4                 " start scrolling horizontally at this number of columns
 set number                      " enable line numbers
-"set noerrorbell                " disable annoying error bells
-set foldcolumn=0                " no extra margin to the left
 set lines=50 columns=150        " windows size at startup
+set foldmethod=indent           " enables folding based on indentation
 
 " Use intelligent case while searching
 " (If search string contains an upper case letter, disables ignorecase)
@@ -144,7 +158,6 @@ endif
 
 set showmatch         " show matching brackets when text indicator is over them
 set matchpairs+=<:>   " include angle brackets in matching
-set mat=2             " how many tenths of a second to blink when matching brackets
 
 "═══════════════════════════════════════════════════"
 "               ╠ Colors and Fonts ╣                "
@@ -152,6 +165,7 @@ set mat=2             " how many tenths of a second to blink when matching brack
 
 set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h11 " editor font
                                                    " https://github.com/powerline/fonts/tree/master/DejaVuSansMono "
+set background=dark                              " set the colourscheme theme to dark
 
 " Switch syntax highlighting on, when the terminal has colors
 if &t_Co > 2 || has("gui_running")
@@ -161,12 +175,6 @@ if &t_Co > 2 || has("gui_running")
 	catch /^Vim\%((\a\+)\)\=:E185/
 	" not available
 	endtry
-
-" Enable coloring for dark background terminals
-if has('gui_running')
-	set background=light
-else
-	set background=dark
 endif
 
 " Turn on color syntax highlighting
@@ -186,40 +194,22 @@ if exists("+cursorline")
 	set cursorline
 endif
 
-" Highlight trailing spaces in annoying red
-if has('autocmd')
-	highlight ExtraWhitespace ctermbg=1 guibg=red
-	match ExtraWhitespace /\s\+$/
-	autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
-	autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
-	autocmd InsertLeave * match ExtraWhitespace /\s\+$/
-	if exists('*clearmatches')
-		autocmd BufWinLeave * call clearmatches()
-	endif
-endif
-
 " Reload .vimrc when saving it
 if has("autocmd")
 	autocmd BufWritePost .vimrc nested source %
-endif
-
-" Highlight conflict markers
-	match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 endif
 
 "═══════════════════════════════════════════════════"
 "          ╠ Text, Tab and Indent related ╣         "
 "═══════════════════════════════════════════════════"
 
+set nojoinspaces      " use one space, not two, after punctuation
+set list              " enable list
+set formatoptions+=n  " support for numbered/bullet lists
+
 " Insert spaces for tabs according to shiftwidth
 if exists("+smarttab")
 	set smarttab
-endif
-
-" Does nothing more than copy the indentation from the previous line,
-" when starting a new line
-if exists("+autoindent")
-	set noautoindent
 endif
 
 " Automatically inserts one extra level of indentation in some cases
@@ -228,14 +218,8 @@ if exists("+smartindent")
 endif
 
 " Tab indentation
-set noexpandtab
 set shiftwidth=4
 set tabstop=4
-
-set nojoinspaces      " use one space, not two, after punctuation
-set fo-=t             " do not automatically wrap text when typing
-set list              " enable list
-set formatoptions+=n  " support for numbered/bullet lists
 
 " Set characters to show for trailing whitespace and
 " end-of-line. Also supports tab, but I set expandtab
@@ -262,27 +246,54 @@ endif
 "                   ╠ Key Binds ╣                   "
 "═══════════════════════════════════════════════════"
 
-" NERDTREE
-map <C-n> :NERDTreeToggle %<CR>
+let mapleader = ","   " set the leader character
+
+"   NERDTREE   "
+
+" Toggle NERDTree
+nmap <silent> <leader>n :NERDTreeToggle<cr>
+
+" Open NERDTree while finding and revealing the active buffer
+nmap <silent> <leader>nf :NERDTreeFind<cr>
+
+"══════════════"
 
 "   ALE   "
 
 " Move between definitions
-map <C-f> :ALEGoToDefinitionInVSplit<CR>
+nmap <leader>ad :ALEGoToDefinitionInVSplit<cr>
 
 " Move between errors
-nmap <silent> <C-k> <Plug>(ale_previous_wrap)
-nmap <silent> <C-j> <Plug>(ale_next_wrap)
+nmap <silent> <c-k> <Plug>(ale_previous_wrap)
+nmap <silent> <c-j> <Plug>(ale_next_wrap)
 
 "═════════"
 
+"   GOYO   "
+
+" Start goyo.vim
+nmap <silent> <leader>go :Goyo<cr>
+nmap <silent> <leader>gs :Goyo!<cr>:e<cr>
+
+" Start goyo.vim with limelight.vim
+nmap <silent> <leader>gol :Goyo<cr>:Limelight<cr>
+nmap <silent> <leader>gsl :Goyo!<cr>:Limelight!<cr>:e<cr>
+
+"══════════"
+
 " Move between buffers
-nnoremap <S-k> :bprevious<CR>
-nnoremap <S-j> :bnext<CR>
+nnoremap <S-k> :bprevious<cr>
+nnoremap <S-j> :bnext<cr>
 
 " Move between tabs
-nnoremap <A-k> :tabprevious<CR>
-nnoremap <A-j> :tabnext<CR>
+nnoremap <A-k> :tabprevious<cr>
+nnoremap <A-j> :tabnext<cr>
 
 " Add paste toggle
 set pastetoggle=<F2>
+
+" Disable highlights
+map <silent> <leader><leader><cr> :noh<cr>
+
+" Enable spell checking
+map <leader>sc :setlocal<space>spell!<cr>

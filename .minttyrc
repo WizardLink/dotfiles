@@ -1,5 +1,5 @@
 ThemeFile=gruvbox
-Transparency=high
+Transparency=low
 CursorType=block
 Font=DejaVu Sans Mono for Powerline
 Columns=150
