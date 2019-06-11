@@ -116,6 +116,9 @@ let g:ale_fixers = {
 			\'typescript': ['tslint'],
 			\}
 
+" goyo.vim
+let g:goyo_width = "80%"
+
 " gruvbox
 let g:gruvbox_contrast_dark = 'hard'    " changes the contrast of dark mode
 let g:gruvbox_contrast_light = 'hard'   " changes the contrast of light mode
@@ -245,8 +248,6 @@ endif
 "═══════════════════════════════════════════════════"
 "                   ╠ Key Binds ╣                   "
 "═══════════════════════════════════════════════════"
-
-let mapleader = ","   " set the leader character
 
 "   NERDTREE   "
 
