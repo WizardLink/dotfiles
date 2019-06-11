@@ -123,6 +123,9 @@ let g:goyo_width = "80%"
 let g:gruvbox_contrast_dark = 'hard'    " changes the contrast of dark mode
 let g:gruvbox_contrast_light = 'hard'   " changes the contrast of light mode
 
+" limelight
+let g:limelight_conceal_ctermfg = 'gray'
+
 " vim air-line
 let g:airline_powerline_fonts =1
 
