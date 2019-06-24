@@ -77,6 +77,7 @@ Plugin 'jiangmiao/auto-pairs'   " ident completition
 Plugin 'tpope/vim-commentary'   " comment out lines with ease
 
 " Syntax
+Plugin 'editorconfig/editorconfig-vim'   " editorconfig VIM integration
 Plugin 'w0rp/ale'
 	" HTML
 	Plugin 'mattn/emmet-vim'             " enmet integration to Vim
@@ -107,21 +108,25 @@ set balloonevalterm                        " required! on terminals?
 let g:ale_set_balloons = 1                 " enable balloons with ale
 let g:ale_set_quickfix = 1                 " enables ale's quickfix
 let g:ale_fix_on_save = 1                  " let ale fix certain issues upon saving
+let g:ale_linters = {
+			\'javascript': ['eslint'],
+			\'typescript': ['eslint']
+			\}
 let g:ale_fixers = {
 			\'*': ['remove_trailing_lines', 'trim_whitespace'],
 			\'html': ['tidy'],
-			\'javascript': ['prettier'],
+			\'javascript': ['eslint'],
 			\'json': ['prettier'],
 			\'markdown': ['prettier'],
-			\'typescript': ['tslint'],
+			\'typescript': ['eslint'],
 			\}
 
 " goyo.vim
 let g:goyo_width = "80%"
 
 " gruvbox
-let g:gruvbox_contrast_dark = 'hard'    " changes the contrast of dark mode
-let g:gruvbox_contrast_light = 'hard'   " changes the contrast of light mode
+let g:gruvbox_contrast_dark = 'soft'    " changes the contrast of dark mode
+let g:gruvbox_contrast_light = 'soft'   " changes the contrast of light mode
 
 " limelight
 let g:limelight_conceal_ctermfg = 'gray'
@@ -171,7 +176,7 @@ set matchpairs+=<:>   " include angle brackets in matching
 
 set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h11 " editor font
                                                    " https://github.com/powerline/fonts/tree/master/DejaVuSansMono "
-set background=dark                              " set the colourscheme theme to dark
+set background=dark                                " set the colourscheme theme to dark
 
 " Switch syntax highlighting on, when the terminal has colors
 if &t_Co > 2 || has("gui_running")
