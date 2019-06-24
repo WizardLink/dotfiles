@@ -33,7 +33,3 @@
 
 	; git-push pushes relevant annotated tags when pushing branches out
 	followTags = true
-
-[user]
-	name = Alexandre Cavalheiro S. Tiago Da Silva
-	email = alexandre.cssilva@gmail.com
