@@ -51,69 +51,77 @@ endif
 
 " Persistent undo so you can undo even after buffer is closed
 try
-	set undodir=~/.vim/undodir
+	set undodir=~/.vim/temp
 	set undofile
 catch
 endtry
 
 "═══════════════════════════════════════════════════"
-"                      ╠ VUNDLE ╣                   "
+"                    ╠ VIM-PLUG ╣                   "
 "═══════════════════════════════════════════════════"
-
-filetype off                       " required! vundle needs filetype off before starting.
-set rtp+=~/.vim/bundle/Vundle.vim  " set the runtime path to include Vundle
-call vundle#begin()                " initialise vundle
+call plug#begin('~/.vim/plugins')   " initialise vim-plug
 
 "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
 "            ♠ PLUGINS ♠           "
 "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
 
-Plugin 'VundleVim/Vundle.vim'   " required! lets vundle manage vundle
-
 " Utility
-Plugin 'scrooloose/nerdtree'    " file tree
-Plugin 'tpope/vim-fugitive'     " GIT integration
-Plugin 'jiangmiao/auto-pairs'   " ident completition
-Plugin 'tpope/vim-commentary'   " comment out lines with ease
+Plug 'tpope/vim-fugitive'              " GIT integration
+Plug 'tpope/vim-commentary'            " comment out lines with ease
+Plug 'ludovicchabant/vim-gutentags'    " tag manager
 
-" Syntax
-Plugin 'editorconfig/editorconfig-vim'   " editorconfig VIM integration
-Plugin 'w0rp/ale'
-	" HTML
-	Plugin 'mattn/emmet-vim'             " enmet integration to Vim
-	" JavaScript
-	Plugin 'pangloss/vim-javascript'     " JavaScript highlighting
-	" TypeScript
-	Plugin 'leafgarland/typescript-vim'  " TypeScript highlighting
+" Completion
+Plug 'Shougo/deoplete.nvim'            " async completion
+Plug 'roxma/nvim-yarp'                 " nvim compatibility layer
+Plug 'roxma/vim-hug-neovim-rpc'        " nvim in vim
+
+"  Syntax  "
+
+Plug 'editorconfig/editorconfig-vim'   " editorconfig VIM integration
+Plug 'w0rp/ale'                        " syntax checker and completion
+
+" HTML
+Plug 'mattn/emmet-vim'               " enmet integration to Vim
+
+" JavaScript
+Plug 'pangloss/vim-javascript'       " JavaScript highlighting
+
+" TypeScript
+Plug 'leafgarland/typescript-vim'    " TypeScript highlighting
+
+"  END-SYNTAX  "
 
 " Visual
-Plugin 'vim-airline/vim-airline'                   " bottom statusline
-Plugin 'morhetz/gruvbox'                           " colour scheme
-Plugin 'junegunn/goyo.vim'                         " distraction-free coding
-Plugin 'junegunn/limelight.vim' " enhance goyo experience
+Plug 'vim-airline/vim-airline'                   " bottom statusline
+Plug 'morhetz/gruvbox'                           " colour scheme
 
-call vundle#end()            " required! stops vundle
+call plug#end()              " required! stops vim-plug
 filetype plugin indent on    " required! re-enables filetype
 
 "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
 "         ♠ CONFIGURATION ♠        "
 "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
 
-" ALE
-let g:ale_completion_enabled = 1           " enable auto-completion
-set omnifunc=ale#completion#OmniFunc       " omni completion
+"  ALE  "
+
+" General
 let g:airline#extensions#ale#enabled = 1   " ale + vim-airline
-set ballooneval                            " required! enable ballons!
-set balloonevalterm                        " required! on terminals?
-let g:ale_set_balloons = 1                 " enable balloons with ale
-let g:ale_set_quickfix = 1                 " enables ale's quickfix
+
+" Fix
 let g:ale_fix_on_save = 1                  " let ale fix certain issues upon saving
-let g:ale_linters = {
+
+" Lint
+let g:ale_lint_delay = 100      " change delay for linter to be ran
+let g:ale_linters_explicit = 1  " only enable the specified linters
+
+let g:ale_linters =
+			\{
 			\'javascript': ['eslint'],
-			\'typescript': ['eslint']
+			\'typescript': ['eslint', 'tsserver']
 			\}
-let g:ale_fixers = {
-			\'*': ['remove_trailing_lines', 'trim_whitespace'],
+let g:ale_fixers =
+			\{
+			\'*': ['remove_trailing_lines','trim_whitespace'],
 			\'html': ['tidy'],
 			\'javascript': ['eslint'],
 			\'json': ['prettier'],
@@ -121,21 +129,28 @@ let g:ale_fixers = {
 			\'typescript': ['eslint'],
 			\}
 
-" goyo.vim
-let g:goyo_width = "80%"
+" END-ALE "
+
+" deoplete
+let g:deoplete#enable_at_startup = 1
+
+" gutentags
+let g:gutentags_cache_dir = '~/.vim/temp' " where to store tags
 
 " gruvbox
 let g:gruvbox_contrast_dark = 'soft'    " changes the contrast of dark mode
 let g:gruvbox_contrast_light = 'soft'   " changes the contrast of light mode
 
-" limelight
-let g:limelight_conceal_ctermfg = 'gray'
-
-" vim air-line
-let g:airline_powerline_fonts =1
-
 " vim-javascript
 let g:javascript_plugin_jsdoc = 1 " Enable JSDoc highlighting
+
+" vim-airline
+let g:airline_powerline_fonts = 1
+
+" editorconfig
+let g:EditorConfig_exclude_patterns = ['fugitive://.\*', 'scp://.\*'] " avoid conflicts with ssh and vim-fugitive
+let g:EditorConfig_max_line_indicator = 'exceeding'                   " change the indicator, to highlight exceeding characters
+let g:EditorConfig_preserve_formatoptions = 1                         " preserves the format else it gets annoying
 
 "═══════════════════════════════════════════════════"
 "                    ╠ Interface ╣                  "
@@ -144,15 +159,15 @@ let g:javascript_plugin_jsdoc = 1 " Enable JSDoc highlighting
 set complete=.,w,b,u,kspell     " where to scan for completion
 set completeopt=menuone,preview " completion (text) settings
 set hidden                      " makes vim have buffers in the background without a window
-set esckeys                     " allow cursor keys in insert mode
 set backspace=indent,eol,start  " allow backspacing over everything in insert mode
 set ignorecase                  " ignore case when searching
 set magic                       " for regular expressions turn magic on
 set splitright                  " split vertically to the right
-set nostartofline               " do not reset cursor to start of line when moving around
 set number                      " enable line numbers
 set lines=50 columns=150        " windows size at startup
 set foldmethod=indent           " enables folding based on indentation
+set updatetime=300              " lower the update time for better experience
+set signcolumn=yes              " always show signcolumns
 
 " Use intelligent case while searching
 " (If search string contains an upper case letter, disables ignorecase)
@@ -174,9 +189,9 @@ set matchpairs+=<:>   " include angle brackets in matching
 "               ╠ Colors and Fonts ╣                "
 "═══════════════════════════════════════════════════"
 
-set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h11 " editor font
+set guifont=Fira\ Code:h11                         " editor font
                                                    " https://github.com/powerline/fonts/tree/master/DejaVuSansMono "
-set background=dark                                " set the colourscheme theme to dark
+set background=light                               " set the colourscheme theme to dark
 
 " Switch syntax highlighting on, when the terminal has colors
 if &t_Co > 2 || has("gui_running")
@@ -257,10 +272,13 @@ endif
 "                   ╠ Key Binds ╣                   "
 "═══════════════════════════════════════════════════"
 
+" Set the <leader> to a better key
+let mapleader = ","
+
 "   NERDTREE   "
 
 " Toggle NERDTree
-nmap <silent> <leader>n :NERDTreeToggle<cr>
+nmap <silent> <leader>nt :NERDTreeToggle<cr>
 
 " Open NERDTree while finding and revealing the active buffer
 nmap <silent> <leader>nf :NERDTreeFind<cr>
@@ -269,24 +287,34 @@ nmap <silent> <leader>nf :NERDTreeFind<cr>
 
 "   ALE   "
 
-" Move between definitions
+" Show full linter message
+nmap <leader>ald :ALEDEtail<cr>
+
+" Find definition
 nmap <leader>ad :ALEGoToDefinitionInVSplit<cr>
+nmap <leader>atd :ALEGoToTypeDefinitionInVSplit<cr>
 
 " Move between errors
-nmap <silent> <c-k> <Plug>(ale_previous_wrap)
-nmap <silent> <c-j> <Plug>(ale_next_wrap)
+nmap <c-j> <Plug>(ale_next_wrap)
+nmap <c-k> <Plug>(ale_previous_wrap)
+
+" Open location list
+nmap <silent> <leader>ll :lopen<CR>
+nmap <silent> <leader>lp :lprevious<cr>
+nmap <silent> <leader>ln :lnext<cr>
 
 "═════════"
 
-"   GOYO   "
+" Change between dark and light mode
+function ChangeBackground()
+	if &background ==# 'dark'
+		set background=light
+	elseif &background ==# 'light'
+		set background=dark
+	endif
+endfunction
 
-" Start goyo.vim
-nmap <silent> <leader>go :Goyo<cr>
-nmap <silent> <leader>gs :Goyo!<cr>:e<cr>
-
-" Start goyo.vim with limelight.vim
-nmap <silent> <leader>gol :Goyo<cr>:Limelight<cr>
-nmap <silent> <leader>gsl :Goyo!<cr>:Limelight!<cr>:e<cr>
+nmap <silent> <leader>tc :call ChangeBackground()<cr>
 
 "══════════"
 
@@ -301,8 +329,5 @@ nnoremap <A-j> :tabnext<cr>
 " Add paste toggle
 set pastetoggle=<F2>
 
-" Disable highlights
-map <silent> <leader><leader><cr> :noh<cr>
-
 " Enable spell checking
-map <leader>sc :setlocal<space>spell!<cr>
+map <leader>sc :setlocal spell!<cr>
