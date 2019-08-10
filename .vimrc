@@ -52,10 +52,13 @@ endif
 " Persistent undo so you can undo even after buffer is closed
 try
 	set undodir=~/.vim/temp
+	set backupdir=~/.vim/temp
+	set directory=~/.vim/temp
 	set undofile
 catch
 endtry
 
+let g:python3_host_prog='C:\Users\Usuario\AppData\Local\Programs\Python\Python37\python.exe'
 "═══════════════════════════════════════════════════"
 "                    ╠ VIM-PLUG ╣                   "
 "═══════════════════════════════════════════════════"
@@ -71,9 +74,7 @@ Plug 'tpope/vim-commentary'            " comment out lines with ease
 Plug 'ludovicchabant/vim-gutentags'    " tag manager
 
 " Completion
-Plug 'Shougo/deoplete.nvim'            " async completion
-Plug 'roxma/nvim-yarp'                 " nvim compatibility layer
-Plug 'roxma/vim-hug-neovim-rpc'        " nvim in vim
+Plug 'lifepillar/vim-mucomplete'       " auto completion
 
 "  Syntax  "
 
@@ -106,12 +107,16 @@ filetype plugin indent on    " required! re-enables filetype
 
 " General
 let g:airline#extensions#ale#enabled = 1   " ale + vim-airline
+let g:ale_completion_enabled = 1           " enable auto-completion
+
+" OmniFunc + ALE
+set omnifunc=ale#completion#OmniFunc       " omni completion
 
 " Fix
 let g:ale_fix_on_save = 1                  " let ale fix certain issues upon saving
 
 " Lint
-let g:ale_lint_delay = 100      " change delay for linter to be ran
+let g:ale_lint_delay = 300      " change delay for linter to be ran
 let g:ale_linters_explicit = 1  " only enable the specified linters
 
 let g:ale_linters =
@@ -131,9 +136,6 @@ let g:ale_fixers =
 
 " END-ALE "
 
-" deoplete
-let g:deoplete#enable_at_startup = 1
-
 " gutentags
 let g:gutentags_cache_dir = '~/.vim/temp' " where to store tags
 
@@ -152,22 +154,35 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.\*', 'scp://.\*'] " avoid co
 let g:EditorConfig_max_line_indicator = 'exceeding'                   " change the indicator, to highlight exceeding characters
 let g:EditorConfig_preserve_formatoptions = 1                         " preserves the format else it gets annoying
 
+" NETRW
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_altv = 1
+let g:netrw_winsize = 25
+
 "═══════════════════════════════════════════════════"
 "                    ╠ Interface ╣                  "
 "═══════════════════════════════════════════════════"
 
-set complete=.,w,b,u,kspell     " where to scan for completion
-set completeopt=menuone,preview " completion (text) settings
-set hidden                      " makes vim have buffers in the background without a window
-set backspace=indent,eol,start  " allow backspacing over everything in insert mode
-set ignorecase                  " ignore case when searching
-set magic                       " for regular expressions turn magic on
-set splitright                  " split vertically to the right
-set number                      " enable line numbers
-set lines=50 columns=150        " windows size at startup
-set foldmethod=indent           " enables folding based on indentation
-set updatetime=300              " lower the update time for better experience
-set signcolumn=yes              " always show signcolumns
+set complete=.,w,b,u,kspell               " where to scan for completion
+set completeopt+=noselect,longest,menuone " completion (text) settings
+set completeopt-=preview
+set shortmess+=c                          " shut off completion messages
+set hidden                                " makes vim have buffers in the background without a window
+set backspace=indent,eol,start            " allow backspacing over everything in insert mode
+set ignorecase                            " ignore case when searching
+set magic                                 " for regular expressions turn magic on
+set nostartofline                         " do not start at the beginning of the line when moving
+set nowrap                                " disables word wrapping
+set autoindent                            " automatically indent on pase
+set splitright                            " split vertically to the right
+set wildmenu                              " enhanced command-line completion
+set number                                " enable line numbers
+set lines=50 columns=150                  " windows size at startup
+set foldmethod=indent                     " enables folding based on indentation
+set updatetime=300                        " lower the update time for better experience
+set signcolumn=yes                        " always show signcolumns
 
 " Use intelligent case while searching
 " (If search string contains an upper case letter, disables ignorecase)
@@ -331,3 +346,6 @@ set pastetoggle=<F2>
 
 " Enable spell checking
 map <leader>sc :setlocal spell!<cr>
+
+" Open NETRW
+nnoremap <silent> <leader>n :Vexplore
