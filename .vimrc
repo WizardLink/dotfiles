@@ -58,7 +58,6 @@ try
 catch
 endtry
 
-let g:python3_host_prog='C:\Users\Usuario\AppData\Local\Programs\Python\Python37\python.exe'
 "═══════════════════════════════════════════════════"
 "                    ╠ VIM-PLUG ╣                   "
 "═══════════════════════════════════════════════════"
