@@ -32,6 +32,12 @@ set fileformat=unix
 " Disable unsafe commands
 set secure
 
+" Add subfolders in the path
+set path+=**
+
+" Confirmation dialog
+set confirm
+
 " Show the filename in the window titlebar
 if exists("+title")
 	set title
@@ -178,10 +184,13 @@ set autoindent                            " automatically indent on pase
 set splitright                            " split vertically to the right
 set wildmenu                              " enhanced command-line completion
 set number                                " enable line numbers
+set relativenumber                        " relative number to the line in focus
 set lines=50 columns=150                  " windows size at startup
 set foldmethod=indent                     " enables folding based on indentation
 set updatetime=300                        " lower the update time for better experience
 set signcolumn=yes                        " always show signcolumns
+set visualbell                            " visual bell instead of sound
+set nolazyredraw                          " do not re-draw the screen on macro
 
 " Use intelligent case while searching
 " (If search string contains an upper case letter, disables ignorecase)
@@ -333,8 +342,8 @@ nmap <silent> <leader>tc :call ChangeBackground()<cr>
 "══════════"
 
 " Move between buffers
-nnoremap <S-k> :bprevious<cr>
-nnoremap <S-j> :bnext<cr>
+nnoremap <A-h> :bprevious<cr>
+nnoremap <A-l> :bnext<cr>
 
 " Move between tabs
 nnoremap <A-k> :tabprevious<cr>
