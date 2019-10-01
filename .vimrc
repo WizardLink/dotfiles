@@ -26,9 +26,6 @@ try
 catch
 endtry
 
-" Force file format to LF
-set fileformat=unix
-
 " Disable unsafe commands
 set secure
 
@@ -76,7 +73,6 @@ call plug#begin('~/.vim/plugins')   " initialise vim-plug
 " Utility
 Plug 'tpope/vim-fugitive'              " GIT integration
 Plug 'tpope/vim-commentary'            " comment out lines with ease
-Plug 'ludovicchabant/vim-gutentags'    " tag manager
 
 " Completion
 Plug 'lifepillar/vim-mucomplete'       " auto completion
@@ -98,7 +94,6 @@ Plug 'leafgarland/typescript-vim'    " TypeScript highlighting
 "  END-SYNTAX  "
 
 " Visual
-Plug 'vim-airline/vim-airline'                   " bottom statusline
 Plug 'morhetz/gruvbox'                           " colour scheme
 
 call plug#end()              " required! stops vim-plug
@@ -111,7 +106,6 @@ filetype plugin indent on    " required! re-enables filetype
 "  ALE  "
 
 " General
-let g:airline#extensions#ale#enabled = 1   " ale + vim-airline
 let g:ale_completion_enabled = 1           " enable auto-completion
 
 " OmniFunc + ALE
@@ -141,18 +135,12 @@ let g:ale_fixers =
 
 " END-ALE "
 
-" gutentags
-let g:gutentags_cache_dir = '~/.vim/temp' " where to store tags
-
 " gruvbox
 let g:gruvbox_contrast_dark = 'soft'    " changes the contrast of dark mode
 let g:gruvbox_contrast_light = 'soft'   " changes the contrast of light mode
 
 " vim-javascript
 let g:javascript_plugin_jsdoc = 1 " Enable JSDoc highlighting
-
-" vim-airline
-let g:airline_powerline_fonts = 1
 
 " editorconfig
 let g:EditorConfig_exclude_patterns = ['fugitive://.\*', 'scp://.\*'] " avoid conflicts with ssh and vim-fugitive
@@ -291,6 +279,18 @@ if exists("+showcmd")
 	set showcmd
 endif
 
+set statusline=
+set statusline+=\ %l/%L
+set statusline+=\ %*
+set statusline+=\ ➦
+set statusline+=\ %m
+set statusline+=\ %r
+set statusline+=\ %t\ %*
+set statusline+=%=
+set statusline+=%{&fenc}
+set statusline+=\ ←→
+set statusline+=\ %{&ff}
+
 "═══════════════════════════════════════════════════"
 "                   ╠ Key Binds ╣                   "
 "═══════════════════════════════════════════════════"
@@ -342,12 +342,12 @@ nmap <silent> <leader>tc :call ChangeBackground()<cr>
 "══════════"
 
 " Move between buffers
-nnoremap <A-h> :bprevious<cr>
-nnoremap <A-l> :bnext<cr>
+nnoremap <A-k> :bnext<cr>
+nnoremap <A-j> :bprevious<cr>
 
 " Move between tabs
-nnoremap <A-k> :tabprevious<cr>
-nnoremap <A-j> :tabnext<cr>
+nnoremap <A-h> :tabnext<cr>
+nnoremap <A-l> :tabprevious<cr>
 
 " Add paste toggle
 set pastetoggle=<F2>
