@@ -75,7 +75,7 @@ Plug 'tpope/vim-fugitive'              " GIT integration
 Plug 'tpope/vim-commentary'            " comment out lines with ease
 
 " Completion
-Plug 'lifepillar/vim-mucomplete'       " auto completion
+Plug 'ajh17/VimCompletesMe'            " tab completion
 
 "  Syntax  "
 
@@ -115,23 +115,46 @@ set omnifunc=ale#completion#OmniFunc       " omni completion
 let g:ale_fix_on_save = 1                  " let ale fix certain issues upon saving
 
 " Lint
+let g:ale_set_loclist = 1       " populate the loclist
 let g:ale_lint_delay = 300      " change delay for linter to be ran
 let g:ale_linters_explicit = 1  " only enable the specified linters
 
-let g:ale_linters =
-			\{
-			\'javascript': ['eslint'],
-			\'typescript': ['eslint', 'tsserver']
-			\}
-let g:ale_fixers =
-			\{
-			\'*': ['remove_trailing_lines','trim_whitespace'],
-			\'html': ['tidy'],
-			\'javascript': ['eslint'],
-			\'json': ['prettier'],
-			\'markdown': ['prettier'],
-			\'typescript': ['eslint'],
-			\}
+augroup TypeScript
+	au!
+	au FileType typescript,javascript,json let g:ale_linters =
+				\{
+				\'javascript': ['eslint'],
+				\'typescript': ['eslint', 'tsserver']
+				\}
+
+	au FileType typescript,javascript,json let g:ale_fixers =
+				\{
+				\'*': ['remove_trailing_lines','trim_whitespace'],
+				\'javascript': ['eslint'],
+				\'json': ['prettier'],
+				\'typescript': ['eslint'],
+				\}
+augroup END
+
+augroup JSON
+	au!
+	au FileType json let g:ale_fixers =
+				\{
+				\'*': ['remove_trailing_lines','trim_whitespace'],
+				\'typescript': ['eslint'],
+				\}
+
+augroup END
+
+augroup Markup
+	au!
+	au FileType html,markdown let g:ale_fixers =
+				\{
+				\'*': ['remove_trailing_lines','trim_whitespace'],
+				\'html': ['tidy'],
+				\'markdown': ['prettier'],
+				\}
+augroup END
 
 " END-ALE "
 
@@ -280,16 +303,18 @@ if exists("+showcmd")
 endif
 
 set statusline=
-set statusline+=\ %l/%L
-set statusline+=\ %*
-set statusline+=\ ➦
-set statusline+=\ %m
-set statusline+=\ %r
-set statusline+=\ %t\ %*
-set statusline+=%=
-set statusline+=%{&fenc}
-set statusline+=\ ←→
+set statusline+=%#PmenuSbar#
 set statusline+=\ %{&ff}
+set statusline+=\ %y
+set statusline+=\ %{&fenc}
+set statusline+=\ >
+set statusline+=\ %m
+set statusline+=\ %F
+set statusline+=\ %r
+set statusline+=%#CursorColumn#
+set statusline+=%=
+set statusline+=\ %l[%c]/%L\ %p%%
+set statusline+=\ %<
 
 "═══════════════════════════════════════════════════"
 "                   ╠ Key Binds ╣                   "
@@ -297,16 +322,6 @@ set statusline+=\ %{&ff}
 
 " Set the <leader> to a better key
 let mapleader = ","
-
-"   NERDTREE   "
-
-" Toggle NERDTree
-nmap <silent> <leader>nt :NERDTreeToggle<cr>
-
-" Open NERDTree while finding and revealing the active buffer
-nmap <silent> <leader>nf :NERDTreeFind<cr>
-
-"══════════════"
 
 "   ALE   "
 
@@ -346,8 +361,13 @@ nnoremap <A-k> :bnext<cr>
 nnoremap <A-j> :bprevious<cr>
 
 " Move between tabs
-nnoremap <A-h> :tabnext<cr>
-nnoremap <A-l> :tabprevious<cr>
+nnoremap <A-l> :tabnext<cr>
+nnoremap <A-h> :tabprevious<cr>
+
+" Location list
+nnoremap <leader>lo :lopen<cr>
+nnoremap <leader>ln :lnext<cr>
+nnoremap <leader>lp :lprevious<cr>
 
 " Add paste toggle
 set pastetoggle=<F2>
