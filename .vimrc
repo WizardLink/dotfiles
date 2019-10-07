@@ -136,16 +136,6 @@ augroup TypeScript
 				\}
 augroup END
 
-augroup JSON
-	au!
-	au FileType json let g:ale_fixers =
-				\{
-				\'*': ['remove_trailing_lines','trim_whitespace'],
-				\'typescript': ['eslint'],
-				\}
-
-augroup END
-
 augroup Markup
 	au!
 	au FileType html,markdown let g:ale_fixers =
