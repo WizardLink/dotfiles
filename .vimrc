@@ -293,12 +293,12 @@ if exists("+showcmd")
 endif
 
 set statusline=
-set statusline+=%#PmenuSbar#
+set statusline+=%#StatusLineTerm#
 set statusline+=\ %{&ff}
 set statusline+=\ %y
 set statusline+=\ %{&fenc}
-set statusline+=\ >
 set statusline+=\ %m
+set statusline+=%#TabLine#
 set statusline+=\ %F
 set statusline+=\ %r
 set statusline+=%#CursorColumn#
