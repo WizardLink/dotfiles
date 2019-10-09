@@ -297,12 +297,14 @@ set statusline+=%#StatusLineTerm#
 set statusline+=\ %{&ff}
 set statusline+=\ %y
 set statusline+=\ %{&fenc}
-set statusline+=\ %m
-set statusline+=%#TabLine#
+set statusline+=\ %#TabLine#
 set statusline+=\ %F
-set statusline+=\ %r
 set statusline+=%#CursorColumn#
 set statusline+=%=
+set statusline+=%#Visual#
+set statusline+=%m
+set statusline+=%r
+set statusline+=%#PmenuSel#
 set statusline+=\ %l[%c]/%L\ %p%%
 set statusline+=\ %<
 
@@ -325,11 +327,6 @@ nmap <leader>atd :ALEGoToTypeDefinitionInVSplit<cr>
 " Move between errors
 nmap <c-j> <Plug>(ale_next_wrap)
 nmap <c-k> <Plug>(ale_previous_wrap)
-
-" Open location list
-nmap <silent> <leader>ll :lopen<CR>
-nmap <silent> <leader>lp :lprevious<cr>
-nmap <silent> <leader>ln :lnext<cr>
 
 "═════════"
 
@@ -355,9 +352,9 @@ nnoremap <A-l> :tabnext<cr>
 nnoremap <A-h> :tabprevious<cr>
 
 " Location list
-nnoremap <leader>lo :lopen<cr>
-nnoremap <leader>ln :lnext<cr>
-nnoremap <leader>lp :lprevious<cr>
+nnoremap <silent> <leader>lo :lopen<cr>
+nnoremap <silent> <leader>ln :lnext<cr>
+nnoremap <silent> <leader>lp :lprevious<cr>
 
 " Add paste toggle
 set pastetoggle=<F2>
