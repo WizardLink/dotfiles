@@ -4,6 +4,7 @@
 
 set nocompatible    " disables backwards compatibility with Vi
 set encoding=utf-8  " sets encoding to utf-8
+set fileformat=unix " LF only
 
 " Change GVIM window
 if has("gui_running")
@@ -73,6 +74,7 @@ call plug#begin('~/.vim/plugins')   " initialise vim-plug
 " Utility
 Plug 'tpope/vim-fugitive'              " GIT integration
 Plug 'tpope/vim-commentary'            " comment out lines with ease
+Plug 'liuchengxu/vim-clap'             " interactive finder
 
 " Completion
 Plug 'ajh17/VimCompletesMe'            " tab completion
@@ -90,6 +92,9 @@ Plug 'pangloss/vim-javascript'       " JavaScript highlighting
 
 " TypeScript
 Plug 'leafgarland/typescript-vim'    " TypeScript highlighting
+
+" Elixir
+Plug 'elixir-editors/vim-elixir'     " Elixir highlighting
 
 "  END-SYNTAX  "
 
@@ -115,9 +120,9 @@ set omnifunc=ale#completion#OmniFunc       " omni completion
 let g:ale_fix_on_save = 1                  " let ale fix certain issues upon saving
 
 " Lint
-let g:ale_set_loclist = 1       " populate the loclist
-let g:ale_lint_delay = 300      " change delay for linter to be ran
-let g:ale_linters_explicit = 1  " only enable the specified linters
+let g:ale_set_loclist = 1          " populate the loclist
+let g:ale_lint_delay = 300         " change delay for linter to be ran
+let g:ale_linters_explicit = 1     " only enable the specified linters
 
 augroup TypeScript
 	au!
@@ -161,7 +166,6 @@ let g:EditorConfig_max_line_indicator = 'exceeding'                   " change t
 let g:EditorConfig_preserve_formatoptions = 1                         " preserves the format else it gets annoying
 
 " NETRW
-let g:netrw_banner = 0
 let g:netrw_liststyle = 3
 let g:netrw_browse_split = 4
 let g:netrw_altv = 1
@@ -295,8 +299,8 @@ endif
 set statusline=
 set statusline+=%#StatusLineTerm#
 set statusline+=\ %{&ff}
-set statusline+=\ %y
-set statusline+=\ %{&fenc}
+set statusline+=%y
+set statusline+=%{&fenc}
 set statusline+=\ %#TabLine#
 set statusline+=\ %F
 set statusline+=%#CursorColumn#
