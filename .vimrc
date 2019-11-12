@@ -325,12 +325,9 @@ let mapleader = ","
 nmap <leader>ald :ALEDEtail<cr>
 
 " Find definition
-nmap <leader>ad :ALEGoToDefinitionInVSplit<cr>
+nmap <leader>adf :ALEGoToDefinition<cr>
+nmap <leader>ads :ALEGoToDefinitionInVSplit<cr>
 nmap <leader>atd :ALEGoToTypeDefinitionInVSplit<cr>
-
-" Move between errors
-nmap <c-j> <Plug>(ale_next_wrap)
-nmap <c-k> <Plug>(ale_previous_wrap)
 
 "═════════"
 
@@ -357,6 +354,7 @@ nnoremap <A-h> :tabprevious<cr>
 
 " Location list
 nnoremap <silent> <leader>lo :lopen<cr>
+nnoremap <silent> <leader>lc :lclose<cr>
 nnoremap <silent> <leader>ln :lnext<cr>
 nnoremap <silent> <leader>lp :lprevious<cr>
 
@@ -366,5 +364,14 @@ set pastetoggle=<F2>
 " Enable spell checking
 map <leader>sc :setlocal spell!<cr>
 
+" clap 👏
+nnoremap <leader>cp :Clap<space>
+nnoremap <silent> <leader>cb :Clap blines<cr>
+nnoremap <silent> <leader>cf :Clap files<cr>
+nnoremap <silent> <leader>cg :Clap grep<cr>
+
+" remove highlights more quickly
+nmap <silent> <leader>n :noh<cr>
+
 " Open NETRW
-nnoremap <silent> <leader>n :Vexplore
+nnoremap <silent> <leader>t :Vexplore<cr>
