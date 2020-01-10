@@ -33,6 +33,9 @@ set secure
 " Add subfolders in the path
 set path+=**
 
+" Automatically change the current directory
+set autochdir
+
 " Confirmation dialog
 set confirm
 
@@ -87,6 +90,9 @@ Plug 'w0rp/ale'                        " syntax checker and completion
 " HTML
 Plug 'mattn/emmet-vim'               " enmet integration to Vim
 
+" C#
+Plug 'OmniSharp/omnisharp-vim'       " C# intellisense
+
 " JavaScript
 Plug 'pangloss/vim-javascript'       " JavaScript highlighting
 
@@ -95,6 +101,7 @@ Plug 'leafgarland/typescript-vim'    " TypeScript highlighting
 
 " Elixir
 Plug 'elixir-editors/vim-elixir'     " Elixir highlighting
+Plug 'slashmili/alchemist.vim'       " ElixirSense
 
 "  END-SYNTAX  "
 
@@ -124,20 +131,58 @@ let g:ale_set_loclist = 1          " populate the loclist
 let g:ale_lint_delay = 300         " change delay for linter to be ran
 let g:ale_linters_explicit = 1     " only enable the specified linters
 
-augroup TypeScript
+augroup TypeJavaScriptLint
 	au!
-	au FileType typescript,javascript,json let g:ale_linters =
+	au FileType typescript let g:ale_linters =
 				\{
-				\'javascript': ['eslint'],
 				\'typescript': ['eslint', 'tsserver']
 				\}
 
-	au FileType typescript,javascript,json let g:ale_fixers =
+	au FileType typescriptreact let g:ale_linters =
+				\{
+				\'typescriptreact': ['eslint', 'tsserver']
+				\}
+
+	au FileType javascript let g:ale_linters =
+				\{
+				\'javascript': ['eslint']
+				\}
+
+	au FileType javascriptreact let g:ale_linters =
+				\{
+				\'javascriptreact': ['eslint']
+				\}
+augroup END
+
+augroup TypeJavaScriptFix
+	au FileType typescript let g:ale_fixers =
+				\{
+				\'*': ['remove_trailing_lines','trim_whitespace'],
+				\'typescript': ['eslint']
+				\}
+
+	au FileType typescriptreact let g:ale_fixers =
+				\{
+				\'*': ['remove_trailing_lines','trim_whitespace'],
+				\'typescriptreact': ['eslint'],
+				\}
+
+	au FileType javascript let g:ale_fixers =
 				\{
 				\'*': ['remove_trailing_lines','trim_whitespace'],
 				\'javascript': ['eslint'],
+				\}
+
+	au FileType javascriptreact let g:ale_fixers =
+				\{
+				\'*': ['remove_trailing_lines','trim_whitespace'],
+				\'javascriptreact': ['eslint'],
+				\}
+
+	au FileType json let g:ale_fixers =
+				\{
+				\'*': ['remove_trailing_lines','trim_whitespace'],
 				\'json': ['prettier'],
-				\'typescript': ['eslint'],
 				\}
 augroup END
 
