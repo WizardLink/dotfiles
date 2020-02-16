@@ -3,8 +3,10 @@
 "═══════════════════════════════════════════════════"
 
 set nocompatible    " disables backwards compatibility with Vi
-set encoding=utf-8  " sets encoding to utf-8
+set encoding=utf8   " sets encoding to utf-8
+scriptencoding utf8 " ^
 set fileformat=unix " LF only
+set termguicolors
 
 " Change GVIM window
 if has("gui_running")
@@ -17,8 +19,8 @@ if has("gui_running")
 	set guioptions-=l        " left scrollbar
 	set guioptions-=L        " left scrollbar at vertical split windows
 
-	" Change the GVIM label
-	set guitablabel=%M\ %t   "
+	" Enable DirectX rendering
+	set rop=type:directx,renmode:3
 endif
 
 " Set language as en_US in all circumstances for consistency
@@ -235,7 +237,6 @@ set splitright                            " split vertically to the right
 set wildmenu                              " enhanced command-line completion
 set number                                " enable line numbers
 set relativenumber                        " relative number to the line in focus
-set lines=50 columns=150                  " windows size at startup
 set foldmethod=indent                     " enables folding based on indentation
 set updatetime=300                        " lower the update time for better experience
 set signcolumn=yes                        " always show signcolumns
@@ -264,7 +265,7 @@ set matchpairs+=<:>   " include angle brackets in matching
 
 set guifont=Fira\ Code:h11                         " editor font
                                                    " https://github.com/powerline/fonts/tree/master/DejaVuSansMono "
-set background=light                               " set the colourscheme theme to dark
+set background=light                               " set the colourscheme theme to light
 
 " Switch syntax highlighting on, when the terminal has colors
 if &t_Co > 2 || has("gui_running")
@@ -320,10 +321,8 @@ endif
 set shiftwidth=4
 set tabstop=4
 
-" Set characters to show for trailing whitespace and
-" end-of-line. Also supports tab, but I set expandtab
-" and thus tabs are always turned into spaces
-set listchars=eol:§,tab:¤›,extends:»,precedes:«,nbsp:‡
+" Set listchars special characters for eol, tab, etc.
+set lcs=tab:❯\ ,eol:⮈,extends:⦁,precedes:❮
 
 "═══════════════════════════════════════════════════"
 "                  ╠ Status line ╣                  "
