@@ -322,7 +322,7 @@ set shiftwidth=4
 set tabstop=4
 
 " Set listchars special characters for eol, tab, etc.
-set lcs=tab:❯\ ,eol:⮈,extends:⦁,precedes:❮
+set lcs=tab:›–,eol:¶,extends:‹,precedes:‡
 
 "═══════════════════════════════════════════════════"
 "                  ╠ Status line ╣                  "
