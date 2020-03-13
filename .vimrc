@@ -93,9 +93,6 @@ Plug 'w0rp/ale'                      " syntax lint and lsp
 " HTML
 Plug 'mattn/emmet-vim'               " enmet integration to Vim
 
-" C#
-Plug 'OmniSharp/omnisharp-vim'       " C# intellisense
-
 " JavaScript
 Plug 'pangloss/vim-javascript'       " JavaScript highlighting
 
@@ -136,21 +133,23 @@ let g:ale_linters_explicit = 1       " only enable the specified linters
 
 let g:ale_linters =
 			\{
+			\'cs': ['mcs'],
 			\'javascript': ['eslint', 'tsserver'],
 			\'javascriptreact': ['eslint', 'tsserver'],
 			\'typescript': ['eslint', 'tsserver'],
-			\'typescriptreact': ['eslint', 'tsserver']
+			\'typescriptreact': ['eslint', 'tsserver'],
 			\}
 
 let g:ale_fixers =
 			\{
 			\'*': ['remove_trailing_lines','trim_whitespace'],
+			\'cs': ['uncrustify'],
 			\'html': ['tidy'],
 			\'javascript': ['eslint'],
 			\'javascriptreact': ['eslint'],
 			\'markdown': ['prettier'],
 			\'typescript': ['eslint'],
-			\'typescriptreact': ['eslint']
+			\'typescriptreact': ['eslint'],
 			\}
 
 " END-ALE "
@@ -158,10 +157,36 @@ let g:ale_fixers =
 " gruvbox
 let g:gruvbox_contrast_dark = 'soft'    " changes the contrast of dark mode
 let g:gruvbox_contrast_light = 'soft'   " changes the contrast of light mode
+
+"   lightline   "
+
 let g:lightline =
 			\{
-			\ 'colorscheme': 'gruvbox'
+			\ 'colorscheme': 'gruvbox',
+			\ 'component': {
+			\   'lineinfo': ' %3l:%-2v',
+			\ },
+			\ 'component_function': {
+			\   'readonly': 'LightlineReadonly',
+			\   'fugitive': 'LightlineFugitive'
+			\ },
+			\ 'separator': { 'left': '', 'right': '' },
+			\ 'subseparator': { 'left': '', 'right': '' }
 			\}
+
+function! LightlineReadonly()
+	return &readonly ? '' : ''
+endfunction
+
+function! LightlineFugitive()
+	if exists('*FugitiveHead')
+		let branch = FugitiveHead()
+		return branch !=# '' ? ''.branch : ''
+	endif
+	return ''
+endfunction
+
+" END LIGHTLINE "
 
 " vim-javascript
 let g:javascript_plugin_jsdoc = 1       " Enable JSDoc highlighting
@@ -309,8 +334,9 @@ nmap <leader>ald :ALEDetail<cr>
 
 " Find definition
 nmap <leader>adf :ALEGoToDefinition<cr>
-nmap <leader>ads :ALEGoToDefinitionInVSplit<cr>
-nmap <leader>atd :ALEGoToTypeDefinitionInVSplit<cr>
+nmap <leader>adt :ALEGoToDefinitionInTab<cr>
+nmap <leader>atv :ALEGoToTypeDefinitionInVSplit<cr>
+nmap <c-s-space> :ALEHover<cr>
 
 "═════════"
 
