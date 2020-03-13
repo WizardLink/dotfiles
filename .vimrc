@@ -77,17 +77,18 @@ call plug#begin('~/.vim/plugins')   " initialise vim-plug
 "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
 
 " Utility
-Plug 'tpope/vim-fugitive'              " GIT integration
-Plug 'tpope/vim-commentary'            " comment out lines with ease
-Plug 'liuchengxu/vim-clap'             " interactive finder
+Plug 'tpope/vim-fugitive'            " GIT integration
+Plug 'tpope/vim-commentary'          " comment out lines with ease
+Plug 'liuchengxu/vim-clap'           " interactive fuzzy finder
+Plug 'itchyny/lightline.vim'         " configurable statusline
 
 " Completion
-Plug 'ajh17/VimCompletesMe'            " tab completion
+Plug 'ajh17/VimCompletesMe'          " tab completion
 
 "  Syntax  "
 
-Plug 'editorconfig/editorconfig-vim'   " editorconfig VIM integration
-Plug 'w0rp/ale'                        " syntax checker and completion
+Plug 'editorconfig/editorconfig-vim' " editorconfig VIM integration
+Plug 'w0rp/ale'                      " syntax lint and lsp
 
 " HTML
 Plug 'mattn/emmet-vim'               " enmet integration to Vim
@@ -108,7 +109,7 @@ Plug 'slashmili/alchemist.vim'       " ElixirSense
 "  END-SYNTAX  "
 
 " Visual
-Plug 'morhetz/gruvbox'                           " colour scheme
+Plug 'morhetz/gruvbox'               " colour scheme
 
 call plug#end()              " required! stops vim-plug
 filetype plugin indent on    " required! re-enables filetype
@@ -120,92 +121,50 @@ filetype plugin indent on    " required! re-enables filetype
 "  ALE  "
 
 " General
-let g:ale_completion_enabled = 1           " enable auto-completion
+let g:ale_completion_enabled = 1     " enable auto-completion
 
 " OmniFunc + ALE
-set omnifunc=ale#completion#OmniFunc       " omni completion
+set omnifunc=ale#completion#OmniFunc " omni completion
 
 " Fix
-let g:ale_fix_on_save = 1                  " let ale fix certain issues upon saving
+let g:ale_fix_on_save = 1            " let ale fix certain issues upon saving
 
 " Lint
-let g:ale_set_loclist = 1          " populate the loclist
-let g:ale_lint_delay = 300         " change delay for linter to be ran
-let g:ale_linters_explicit = 1     " only enable the specified linters
+let g:ale_set_loclist = 1            " populate the loclist
+let g:ale_lint_delay = 300           " change delay for linter to be ran
+let g:ale_linters_explicit = 1       " only enable the specified linters
 
-augroup TypeJavaScriptLint
-	au!
-	au FileType typescript let g:ale_linters =
-				\{
-				\'typescript': ['eslint', 'tsserver']
-				\}
+let g:ale_linters =
+			\{
+			\'javascript': ['eslint', 'tsserver'],
+			\'javascriptreact': ['eslint', 'tsserver'],
+			\'typescript': ['eslint', 'tsserver'],
+			\'typescriptreact': ['eslint', 'tsserver']
+			\}
 
-	au FileType typescriptreact let g:ale_linters =
-				\{
-				\'typescriptreact': ['eslint', 'tsserver']
-				\}
-
-	au FileType javascript let g:ale_linters =
-				\{
-				\'javascript': ['eslint']
-				\}
-
-	au FileType javascriptreact let g:ale_linters =
-				\{
-				\'javascriptreact': ['eslint']
-				\}
-augroup END
-
-augroup TypeJavaScriptFix
-	au FileType typescript let g:ale_fixers =
-				\{
-				\'*': ['remove_trailing_lines','trim_whitespace'],
-				\'typescript': ['eslint']
-				\}
-
-	au FileType typescriptreact let g:ale_fixers =
-				\{
-				\'*': ['remove_trailing_lines','trim_whitespace'],
-				\'typescriptreact': ['eslint'],
-				\}
-
-	au FileType javascript let g:ale_fixers =
-				\{
-				\'*': ['remove_trailing_lines','trim_whitespace'],
-				\'javascript': ['eslint'],
-				\}
-
-	au FileType javascriptreact let g:ale_fixers =
-				\{
-				\'*': ['remove_trailing_lines','trim_whitespace'],
-				\'javascriptreact': ['eslint'],
-				\}
-
-	au FileType json let g:ale_fixers =
-				\{
-				\'*': ['remove_trailing_lines','trim_whitespace'],
-				\'json': ['prettier'],
-				\}
-augroup END
-
-augroup Markup
-	au!
-	au FileType html,markdown let g:ale_fixers =
-				\{
-				\'*': ['remove_trailing_lines','trim_whitespace'],
-				\'html': ['tidy'],
-				\'markdown': ['prettier'],
-				\}
-augroup END
+let g:ale_fixers =
+			\{
+			\'*': ['remove_trailing_lines','trim_whitespace'],
+			\'html': ['tidy'],
+			\'javascript': ['eslint'],
+			\'javascriptreact': ['eslint'],
+			\'markdown': ['prettier'],
+			\'typescript': ['eslint'],
+			\'typescriptreact': ['eslint']
+			\}
 
 " END-ALE "
 
 " gruvbox
 let g:gruvbox_contrast_dark = 'soft'    " changes the contrast of dark mode
 let g:gruvbox_contrast_light = 'soft'   " changes the contrast of light mode
+let g:lightline =
+			\{
+			\ 'colorscheme': 'gruvbox'
+			\}
 
 " vim-javascript
-let g:javascript_plugin_jsdoc = 1 " Enable JSDoc highlighting
+let g:javascript_plugin_jsdoc = 1       " Enable JSDoc highlighting
 
 " editorconfig
 let g:EditorConfig_exclude_patterns = ['fugitive://.\*', 'scp://.\*'] " avoid conflicts with ssh and vim-fugitive
@@ -242,6 +201,7 @@ set updatetime=300                        " lower the update time for better exp
 set signcolumn=yes                        " always show signcolumns
 set visualbell                            " visual bell instead of sound
 set nolazyredraw                          " do not re-draw the screen on macro
+set noshowmode                            " ommit what mode you are
 
 " Use intelligent case while searching
 " (If search string contains an upper case letter, disables ignorecase)
@@ -265,7 +225,7 @@ set matchpairs+=<:>   " include angle brackets in matching
 
 set guifont=Fira\ Code:h11                         " editor font
                                                    " https://github.com/powerline/fonts/tree/master/DejaVuSansMono "
-set background=light                               " set the colourscheme theme to light
+set background=dark                                " set the colourscheme theme to dark
 
 " Switch syntax highlighting on, when the terminal has colors
 if &t_Co > 2 || has("gui_running")
@@ -330,31 +290,10 @@ set lcs=tab:›–,eol:¶,extends:‹,precedes:‡
 
 set laststatus=2    " always show the status line
 
-" Show current mode in the status line.
-if exists("+showmode")
-	set showmode
-endif
-
 " Show the (partial) command as it’s being typed.
 if exists("+showcmd")
 	set showcmd
 endif
-
-set statusline=
-set statusline+=%#StatusLineTerm#
-set statusline+=\ %{&ff}
-set statusline+=%y
-set statusline+=%{&fenc}
-set statusline+=\ %#TabLine#
-set statusline+=\ %F
-set statusline+=%#CursorColumn#
-set statusline+=%=
-set statusline+=%#Visual#
-set statusline+=%m
-set statusline+=%r
-set statusline+=%#PmenuSel#
-set statusline+=\ %l[%c]/%L\ %p%%
-set statusline+=\ %<
 
 "═══════════════════════════════════════════════════"
 "                   ╠ Key Binds ╣                   "
@@ -366,7 +305,7 @@ let mapleader = ","
 "   ALE   "
 
 " Show full linter message
-nmap <leader>ald :ALEDEtail<cr>
+nmap <leader>ald :ALEDetail<cr>
 
 " Find definition
 nmap <leader>adf :ALEGoToDefinition<cr>
@@ -389,12 +328,16 @@ nmap <silent> <leader>tc :call ChangeBackground()<cr>
 "══════════"
 
 " Move between buffers
-nnoremap <A-k> :bnext<cr>
-nnoremap <A-j> :bprevious<cr>
+nnoremap <a-k> :bnext<cr>
+nnoremap <a-j> :bprevious<cr>
 
 " Move between tabs
-nnoremap <A-l> :tabnext<cr>
-nnoremap <A-h> :tabprevious<cr>
+nnoremap <a-l> :tabnext<cr>
+nnoremap <a-h> :tabprevious<cr>
+
+" Move tab position
+nnoremap <c-s-l> :+tabemove<cr>
+nnoremap <c-s-h> :-tabemove<cr>
 
 " Location list
 nnoremap <silent> <leader>lo :lopen<cr>
