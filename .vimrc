@@ -336,8 +336,8 @@ nnoremap <a-l> :tabnext<cr>
 nnoremap <a-h> :tabprevious<cr>
 
 " Move tab position
-nnoremap <c-s-l> :+tabemove<cr>
-nnoremap <c-s-h> :-tabemove<cr>
+nnoremap <c-s-l> :+tabmove<cr>
+nnoremap <c-s-h> :-tabmove<cr>
 
 " Location list
 nnoremap <silent> <leader>lo :lopen<cr>
