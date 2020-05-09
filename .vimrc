@@ -7,6 +7,7 @@ set encoding=utf8   " sets encoding to utf-8
 scriptencoding utf8 " ^
 set fileformat=unix " LF only
 set termguicolors
+set noswapfile
 
 " Change GVIM window
 if has("gui_running")
@@ -67,6 +68,23 @@ try
 catch
 endtry
 
+" Cursor in terminal
+" https://vim.fandom.com/wiki/Configuring_the_cursor
+" 1 or 0 -> blinking block
+" 2 solid block
+" 3 -> blinking underscore
+" 4 solid underscore
+" Recent versions of xterm (282 or above) also support
+" 5 -> blinking vertical bar
+" 6 -> solid vertical bar
+
+if &term =~ '^xterm'
+	" normal mode
+	let &t_EI .= "\<Esc>[0 q"
+	" insert mode
+	let &t_SI .= "\<Esc>[6 q"
+endif
+
 "═══════════════════════════════════════════════════"
 "                    ╠ VIM-PLUG ╣                   "
 "═══════════════════════════════════════════════════"
@@ -81,6 +99,7 @@ Plug 'tpope/vim-fugitive'            " GIT integration
 Plug 'tpope/vim-commentary'          " comment out lines with ease
 Plug 'liuchengxu/vim-clap'           " interactive fuzzy finder
 Plug 'itchyny/lightline.vim'         " configurable statusline
+Plug 'junegunn/fzf.vim'              " fzf integration
 
 " Completion
 Plug 'ajh17/VimCompletesMe'          " tab completion
@@ -94,19 +113,28 @@ Plug 'w0rp/ale'                      " syntax lint and lsp
 Plug 'mattn/emmet-vim'               " enmet integration to Vim
 
 " JavaScript
-Plug 'pangloss/vim-javascript'       " JavaScript highlighting
+Plug 'yuezk/vim-js'                  " JavaScript highlighting
+Plug 'maxmellon/vim-jsx-pretty'      " JSX highlight
 
 " TypeScript
-Plug 'leafgarland/typescript-vim'    " TypeScript highlighting
+Plug 'HerringtonDarkholme/yats.vim'  " TypeScript highlighting
+"Plug 'leafgarland/typescript-vim'
 
 " Elixir
 Plug 'elixir-editors/vim-elixir'     " Elixir highlighting
 Plug 'slashmili/alchemist.vim'       " ElixirSense
 
+" C#
+Plug 'OmniSharp/omnisharp-vim'       " C# linting and completion
+
+" PowerShell
+Plug 'PProvost/vim-ps1'              " PowerShell highlighting
+
 "  END-SYNTAX  "
 
-" Visual
-Plug 'morhetz/gruvbox'               " colour scheme
+" Colour schemes
+Plug 'morhetz/gruvbox'
+Plug 'dracula/vim'
 
 call plug#end()              " required! stops vim-plug
 filetype plugin indent on    " required! re-enables filetype
@@ -115,10 +143,7 @@ filetype plugin indent on    " required! re-enables filetype
 "         ♠ CONFIGURATION ♠        "
 "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
 
-"  ALE  "
-
-" General
-let g:ale_completion_enabled = 1     " enable auto-completion
+"==ALE=="
 
 " OmniFunc + ALE
 set omnifunc=ale#completion#OmniFunc " omni completion
@@ -133,9 +158,10 @@ let g:ale_linters_explicit = 1       " only enable the specified linters
 
 let g:ale_linters =
 			\{
-			\'cs': ['mcs'],
+			\'cs': ['OmniSharp'],
 			\'javascript': ['eslint', 'tsserver'],
 			\'javascriptreact': ['eslint', 'tsserver'],
+			\'markdown': ['markdownlint'],
 			\'typescript': ['eslint', 'tsserver'],
 			\'typescriptreact': ['eslint', 'tsserver'],
 			\}
@@ -143,7 +169,6 @@ let g:ale_linters =
 let g:ale_fixers =
 			\{
 			\'*': ['remove_trailing_lines','trim_whitespace'],
-			\'cs': ['uncrustify'],
 			\'html': ['tidy'],
 			\'javascript': ['eslint'],
 			\'javascriptreact': ['eslint'],
@@ -152,17 +177,21 @@ let g:ale_fixers =
 			\'typescriptreact': ['eslint'],
 			\}
 
-" END-ALE "
-
 " gruvbox
 let g:gruvbox_contrast_dark = 'soft'    " changes the contrast of dark mode
 let g:gruvbox_contrast_light = 'soft'   " changes the contrast of light mode
 
-"   lightline   "
+"===OmniSharp==="
+
+let g:OmniSharp_server_stdio = 1
+let g:OmniSharp_timeout = 5
+let g:OmniSharp_highlight_types = 2
+
+"===lightline==="
 
 let g:lightline =
 			\{
-			\ 'colorscheme': 'gruvbox',
+			\ 'colorscheme': 'dracula',
 			\ 'component': {
 			\   'lineinfo': ' %3l:%-2v',
 			\ },
@@ -186,8 +215,6 @@ function! LightlineFugitive()
 	return ''
 endfunction
 
-" END LIGHTLINE "
-
 " vim-javascript
 let g:javascript_plugin_jsdoc = 1       " Enable JSDoc highlighting
 
@@ -206,27 +233,27 @@ let g:netrw_winsize = 25
 "                    ╠ Interface ╣                  "
 "═══════════════════════════════════════════════════"
 
-set complete=.,w,b,u,kspell               " where to scan for completion
-set completeopt+=noselect,longest,menuone " completion (text) settings
-set completeopt-=preview
-set shortmess+=c                          " shut off completion messages
-set hidden                                " makes vim have buffers in the background without a window
-set backspace=indent,eol,start            " allow backspacing over everything in insert mode
-set ignorecase                            " ignore case when searching
-set magic                                 " for regular expressions turn magic on
-set nostartofline                         " do not start at the beginning of the line when moving
-set nowrap                                " disables word wrapping
-set autoindent                            " automatically indent on pase
-set splitright                            " split vertically to the right
-set wildmenu                              " enhanced command-line completion
-set number                                " enable line numbers
-set relativenumber                        " relative number to the line in focus
-set foldmethod=indent                     " enables folding based on indentation
-set updatetime=300                        " lower the update time for better experience
-set signcolumn=yes                        " always show signcolumns
-set visualbell                            " visual bell instead of sound
-set nolazyredraw                          " do not re-draw the screen on macro
-set noshowmode                            " ommit what mode you are
+set complete=.,w,b,u,kspell                         " where to scan for completion
+set completeopt=longest,menuone,preview,popuphidden " completion (text) settings
+set completepopup=highlight:Pmenu,border:off        " popup completion settings
+set shortmess+=c                                    " shut off completion messages
+set hidden                                          " makes vim have buffers in the background without a window
+set backspace=indent,eol,start                      " allow backspacing over everything in insert mode
+set ignorecase                                      " ignore case when searching
+set magic                                           " for regular expressions turn magic on
+set nostartofline                                   " do not start at the beginning of the line when moving
+set nowrap                                          " disables word wrapping
+set autoindent                                      " automatically indent on pase
+set splitright                                      " split vertically to the right
+set wildmenu                                        " enhanced command-line completion
+set number                                          " enable line numbers
+set relativenumber                                  " relative number to the line in focus
+set foldmethod=syntax                               " enables folding based on indentation
+set updatetime=300                                  " lower the update time for better experience
+set signcolumn=yes                                  " always show signcolumns
+"set visualbell                                      " visual bell instead of sound
+set nolazyredraw                                    " do not re-draw the screen on macro
+set noshowmode                                      " ommit what mode you are
 
 " Use intelligent case while searching
 " (If search string contains an upper case letter, disables ignorecase)
@@ -255,7 +282,7 @@ set background=dark                                " set the colourscheme theme 
 " Switch syntax highlighting on, when the terminal has colors
 if &t_Co > 2 || has("gui_running")
 	try
-		colorscheme gruvbox
+		colorscheme dracula
 		" sets colorscheme
 	catch /^Vim\%((\a\+)\)\=:E185/
 	" not available
@@ -275,9 +302,9 @@ if exists("+hlsearch")
 endif
 
 " Highlight current line
-if exists("+cursorline")
-	set cursorline
-endif
+" if exists("+cursorline")
+" 	set cursorline
+" endif
 
 " Reload .vimrc when saving it
 if has("autocmd")
@@ -352,18 +379,6 @@ endfunction
 nmap <silent> <leader>tc :call ChangeBackground()<cr>
 
 "══════════"
-
-" Move between buffers
-nnoremap <a-k> :bnext<cr>
-nnoremap <a-j> :bprevious<cr>
-
-" Move between tabs
-nnoremap <a-l> :tabnext<cr>
-nnoremap <a-h> :tabprevious<cr>
-
-" Move tab position
-nnoremap <c-s-l> :+tabmove<cr>
-nnoremap <c-s-h> :-tabmove<cr>
 
 " Location list
 nnoremap <silent> <leader>lo :lopen<cr>

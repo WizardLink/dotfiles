@@ -1,2 +1,4 @@
-/* Omit vim files */
-*.swp
+# Add in this file any directory or file
+# -- that you would like to be globally ignored
+
+tags

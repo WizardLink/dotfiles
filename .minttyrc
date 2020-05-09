@@ -1,13 +1,14 @@
 Transparency=medium
 CursorType=block
-Font=Fira Code
+Font=FiraCode NF
 Term=xterm-256color
 OpaqueWhenFocused=no
 FontHeight=11
 FontSmoothing=full
 AllowBlinking=yes
-BoldAsFont=yes
-BellType=-1
+BoldAsFont=no
+BellType=0
+Printer=SEC8425190C76E5
 ForegroundColour=235,219,178
 BackgroundColour=29,32,33
 CursorColour=253,157,79
