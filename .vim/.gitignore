@@ -1,3 +1,4 @@
 *
-!undodir
+!temp
+!plugins
 !.gitignore
