@@ -3,9 +3,5 @@
 
 # Show specifics
 !init.vim
-
 !temp/
-temp/*
-
 !plugins/
-plugins/*
