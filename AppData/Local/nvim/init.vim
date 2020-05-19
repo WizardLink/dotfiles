@@ -235,7 +235,6 @@ set relativenumber                                           " relative number t
 set foldmethod=syntax                                        " enables folding based on indentation
 set updatetime=300                                           " lower the update time for better experience
 set signcolumn=yes                                           " always show signcolumns
-"set visualbell                                              " visual bell instead of sound
 set nolazyredraw                                             " do not re-draw the screen on macro
 set noshowmode                                               " ommit what mode you are
 
