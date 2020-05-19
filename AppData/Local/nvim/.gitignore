@@ -1,0 +1,11 @@
+# Hide all unnecessary content
+*
+
+# Show specifics
+!init.vim
+
+!temp/
+temp/*
+
+!plugins/
+plugins/*
