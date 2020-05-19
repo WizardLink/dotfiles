@@ -1,16 +1,20 @@
-###############################
-#                             #
-#   My bashrc for GIT Bash    #
-#                             #
-#       Last revision:        #
-#         2020-05-09          #
-#                             #
-###############################
-
 ### export {{{
 export EDITOR=vim
 
-PS1="\[\033[31\]$ "
+export OSH=/c/Users/Usuario/.oh-my-bash
+### }}}
+
+### ohmybash {{{
+OSH_THEME="custom"
+
+completions=(
+	composer
+	git
+	ssh
+	system
+)
+
+source $OSH/oh-my-bash.sh
 ### }}}
 
 ### alias {{{

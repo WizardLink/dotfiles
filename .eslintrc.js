@@ -1,8 +1,3 @@
-/**
- * ESLint configuration for work,
- * -- as I cannot plug ESLint on it.
- */
-
 module.exports =
 {
 	env:
@@ -14,6 +9,7 @@ module.exports =
 	extends:
 	[
 		'eslint:recommended',
+		// 'plugin:jsdoc/recommended',
 	],
 	globals:
 	{
@@ -24,6 +20,10 @@ module.exports =
 		ecmaVersion: 6,
 		sourceType: "module"
 	},
+	// plugins:
+	// [
+	// 	'jsdoc'
+	// ],
 	root: true,
 	rules:
 	{
@@ -71,5 +71,9 @@ module.exports =
 		'no-unused-vars': 'off',
 		'radix': 'off',
 		'require-atomic-updates': 'off',
+		/**
+		 * JSDoc
+		 */
+		// 'jsdoc/require-jsdoc': 'off',
 	}
 };

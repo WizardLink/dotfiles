@@ -1,8 +1,6 @@
 "═══════════════════════════════════════════════════"
 "                     ╠ GENERAL ╣                   "
 "═══════════════════════════════════════════════════"
-
-set nocompatible    " disables backwards compatibility with Vi
 set encoding=utf8   " sets encoding to utf-8
 scriptencoding utf8 " ^
 set fileformat=unix " LF only
@@ -19,9 +17,6 @@ if has("gui_running")
 	set guioptions-=R        " right scrollbar at vertical split windows
 	set guioptions-=l        " left scrollbar
 	set guioptions-=L        " left scrollbar at vertical split windows
-
-	" Enable DirectX rendering
-	set rop=type:directx,renmode:3
 endif
 
 " Set language as en_US in all circumstances for consistency
@@ -47,88 +42,66 @@ if exists("+title")
 	set title
 endif
 
-" Return to last edit position when opening files
-if has('viminfo')
-	if has('autocmd')
-		autocmd BufReadPost *\(.git/COMMIT_EDITMSG\)\@<!
-					\ if line("'\"") > 0 && line("'\"") <= line("$") |
-					\ 	exe "normal! g`\"" |
-					\ endif
-	endif
-	" Remember info about open buffers on close
-	set viminfo^=%
-endif
-
 " Persistent undo so you can undo even after buffer is closed
 try
-	set undodir=~/.vim/temp
-	set backupdir=~/.vim/temp
-	set directory=~/.vim/temp
+	set undodir=~/AppData/Local/nvim/temp
+	set backupdir=~/AppData/Local/nvim/temp
+	set directory=~/AppData/Local/nvim/temp
 	set undofile
 catch
 endtry
 
-" Cursor in terminal
-" https://vim.fandom.com/wiki/Configuring_the_cursor
-" 1 or 0 -> blinking block
-" 2 solid block
-" 3 -> blinking underscore
-" 4 solid underscore
-" Recent versions of xterm (282 or above) also support
-" 5 -> blinking vertical bar
-" 6 -> solid vertical bar
-
-if &term =~ '^xterm'
-	" normal mode
-	let &t_EI .= "\<Esc>[0 q"
-	" insert mode
-	let &t_SI .= "\<Esc>[6 q"
-endif
+let g:python3_host_prog='C:/Python38/python.exe'
+let g:python_host_prog='C:/Python27/python.exe'
 
 "═══════════════════════════════════════════════════"
 "                    ╠ VIM-PLUG ╣                   "
 "═══════════════════════════════════════════════════"
-call plug#begin('~/.vim/plugins')   " initialise vim-plug
+call plug#begin('~/AppData/Local/nvim/plugins')   " initialise vim-plug
 
 "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
 "            ♠ PLUGINS ♠           "
 "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
 
 " Utility
-Plug 'tpope/vim-fugitive'            " GIT integration
-Plug 'tpope/vim-commentary'          " comment out lines with ease
-Plug 'liuchengxu/vim-clap'           " interactive fuzzy finder
-Plug 'itchyny/lightline.vim'         " configurable statusline
-Plug 'junegunn/fzf.vim'              " fzf integration
+Plug 'tpope/vim-fugitive'                                     " GIT integration
+Plug 'tpope/vim-commentary'                                   " comment out lines with ease
+Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' } " interactive fuzzy finder
+Plug 'itchyny/lightline.vim'                                  " configurable statusline
+Plug 'ludovicchabant/vim-gutentags'                           " tag management
 
 " Completion
-Plug 'ajh17/VimCompletesMe'          " tab completion
+Plug 'ajh17/VimCompletesMe'                                   " tab completion
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " smart completion
 
 "  Syntax  "
 
-Plug 'editorconfig/editorconfig-vim' " editorconfig VIM integration
-Plug 'w0rp/ale'                      " syntax lint and lsp
+Plug 'editorconfig/editorconfig-vim'                          " editorconfig VIM integration
+Plug 'w0rp/ale'                                               " syntax lint and lsp
 
 " HTML
-Plug 'mattn/emmet-vim'               " enmet integration to Vim
+Plug 'mattn/emmet-vim'                                        " enmet integration to Vim
 
 " JavaScript
-Plug 'yuezk/vim-js'                  " JavaScript highlighting
-Plug 'maxmellon/vim-jsx-pretty'      " JSX highlight
+Plug 'yuezk/vim-js'                                           " JavaScript highlighting
+Plug 'maxmellon/vim-jsx-pretty'                               " JSX highlight
 
 " TypeScript
-Plug 'HerringtonDarkholme/yats.vim'  " TypeScript highlighting
+Plug 'HerringtonDarkholme/yats.vim'                           " TypeScript highlighting
 "Plug 'leafgarland/typescript-vim'
 
 " Elixir
-Plug 'elixir-editors/vim-elixir'     " Elixir highlighting
-Plug 'slashmili/alchemist.vim'       " ElixirSense
+Plug 'elixir-editors/vim-elixir'                              " Elixir highlighting
+Plug 'slashmili/alchemist.vim'                                " ElixirSense
 
 " C#
-Plug 'OmniSharp/omnisharp-vim'       " C# linting and completion
+Plug 'OmniSharp/omnisharp-vim'                                " C# linting and completion
 
 " PowerShell
-Plug 'PProvost/vim-ps1'              " PowerShell highlighting
+Plug 'PProvost/vim-ps1'                                       " PowerShell highlighting
+
+" Markdown
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  } " MD browser preview
 
 "  END-SYNTAX  "
 
@@ -215,6 +188,9 @@ function! LightlineFugitive()
 	return ''
 endfunction
 
+" gutentags
+let g:gutentags_cache_dir = '~/AppData/Local/nvim/temp'
+
 " vim-javascript
 let g:javascript_plugin_jsdoc = 1       " Enable JSDoc highlighting
 
@@ -222,6 +198,15 @@ let g:javascript_plugin_jsdoc = 1       " Enable JSDoc highlighting
 let g:EditorConfig_exclude_patterns = ['fugitive://.\*', 'scp://.\*'] " avoid conflicts with ssh and vim-fugitive
 let g:EditorConfig_max_line_indicator = 'exceeding'                   " change the indicator, to highlight exceeding characters
 let g:EditorConfig_preserve_formatoptions = 1                         " preserves the format else it gets annoying
+
+" deoplete
+let g:deoplete#enable_at_startup = 1
+call deoplete#custom#option('sources', {
+			\ '_': ['ale'],
+			\})
+
+" vimcompletesme
+let b:vcm_tab_complete = 'omni'
 
 " NETRW
 let g:netrw_liststyle = 3
@@ -233,27 +218,26 @@ let g:netrw_winsize = 25
 "                    ╠ Interface ╣                  "
 "═══════════════════════════════════════════════════"
 
-set complete=.,w,b,u,kspell                         " where to scan for completion
-set completeopt=longest,menuone,preview,popuphidden " completion (text) settings
-set completepopup=highlight:Pmenu,border:off        " popup completion settings
-set shortmess+=c                                    " shut off completion messages
-set hidden                                          " makes vim have buffers in the background without a window
-set backspace=indent,eol,start                      " allow backspacing over everything in insert mode
-set ignorecase                                      " ignore case when searching
-set magic                                           " for regular expressions turn magic on
-set nostartofline                                   " do not start at the beginning of the line when moving
-set nowrap                                          " disables word wrapping
-set autoindent                                      " automatically indent on pase
-set splitright                                      " split vertically to the right
-set wildmenu                                        " enhanced command-line completion
-set number                                          " enable line numbers
-set relativenumber                                  " relative number to the line in focus
-set foldmethod=syntax                               " enables folding based on indentation
-set updatetime=300                                  " lower the update time for better experience
-set signcolumn=yes                                  " always show signcolumns
-"set visualbell                                      " visual bell instead of sound
-set nolazyredraw                                    " do not re-draw the screen on macro
-set noshowmode                                      " ommit what mode you are
+set complete=.,w,b,u,kspell                                  " where to scan for completion
+set completeopt=longest,menuone,preview,noselect             " completion (text) settings
+set shortmess+=c                                             " shut off completion messages
+set hidden                                                   " makes vim have buffers in the background without a window
+set backspace=indent,eol,start                               " allow backspacing over everything in insert mode
+set ignorecase                                               " ignore case when searching
+set magic                                                    " for regular expressions turn magic on
+set nostartofline                                            " do not start at the beginning of the line when moving
+set nowrap                                                   " disables word wrapping
+set autoindent                                               " automatically indent on pase
+set splitright                                               " split vertically to the right
+set wildmenu                                                 " enhanced command-line completion
+set number                                                   " enable line numbers
+set relativenumber                                           " relative number to the line in focus
+set foldmethod=syntax                                        " enables folding based on indentation
+set updatetime=300                                           " lower the update time for better experience
+set signcolumn=yes                                           " always show signcolumns
+"set visualbell                                              " visual bell instead of sound
+set nolazyredraw                                             " do not re-draw the screen on macro
+set noshowmode                                               " ommit what mode you are
 
 " Use intelligent case while searching
 " (If search string contains an upper case letter, disables ignorecase)
@@ -300,11 +284,6 @@ endif
 if exists("+hlsearch")
 	set hlsearch
 endif
-
-" Highlight current line
-" if exists("+cursorline")
-" 	set cursorline
-" endif
 
 " Reload .vimrc when saving it
 if has("autocmd")

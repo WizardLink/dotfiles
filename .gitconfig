@@ -3,7 +3,7 @@
 #    My Windows .gitconfig    #
 #                             #
 #        Last revision:       #
-#          2020-05-09         #
+#          2020-05-14         #
 #                             #
 ###############################
 
@@ -24,12 +24,12 @@
 	; Checkout as crlf in Windows to avoid issues
 	autocrlf = true
 
-	# -- Your path might be different, but unlikely
-	# -- -- this needs to manually be set because
-	# -- -- GIT for Windows has it's own vim
-	# -- -- so it will run that instead.
+	# Your path might be different, but unlikely
+	# -- this needs to manually be set because
+	# -- GIT for Windows has it's own vim
+	# -- so it will run that instead.
 	; Set the editor to be used by GIT
-	editor = 'C:/Windows/vim.bat'
+	editor = 'C:/tools/neovim/Neovim/bin/nvim.exe'
 
 	; Custom .gitignore
 	excludesfile = ~/.gitignore
@@ -46,19 +46,19 @@
 	gpgsign = true
 
 [diff]
-	# -- Your path might be different, but unlikely
-	# -- -- this needs to manually be set because
-	# -- -- GIT for Windows has it's own vim
-	# -- -- so it will run that instead.
+	# Your path might be different, but unlikely
+	# -- this needs to manually be set because
+	# -- GIT for Windows has it's own vim
+	# -- so it will run that instead.
 	; Set the editor to be used by GIT
-	tool = 'C:/Windows/vimdiff.bat'
+	tool = 'C:/tools/neovim/Neovim/diff.exe'
 
 [merge]
-	# -- Your path might be different, but unlikely
-	# -- -- this needs to manually be set because
-	# -- -- GIT for Windows has it's own vim
-	# -- -- so it will run that instead.
-	tool = 'C:/Windows/vimdiff.bat'
+	# Your path might be different, but unlikely
+	# -- this needs to manually be set because
+	# -- GIT for Windows has it's own vim
+	# -- so it will run that instead.
+	tool = 'C:/tools/neovim/Neovim/diff.exe'
 
 	; https://git-scm.com/docs/git-merge#_how_conflicts_are_presented
 	conflictstyle = diff3
@@ -75,6 +75,6 @@
 	followTags = true
 
 [user]
-	name = YOUR_NAME
-	email = YOUR_EMAIL
-	signingkey = YOUR_GPG_KEY_ID
+	name = Alexandre Cavalheiro S. Tiago Da Silva
+	email = alexandre.cssilva@gmail.com
+	signingkey = 03C18A5682B3E189
